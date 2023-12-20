@@ -1,8 +1,8 @@
-import  express  from "express";
+import express from "express";
 import { login, signup } from "../controllers/index.js";
+import { handleResponse } from "../utils/handleResponse.js";
 const router = express.Router();
 
-router.post("/signup", signup);
-console.log("inrouter")
-router.post("/login", login);
+router.post("/signup", handleResponse.bind(this, signup));
+router.post("/login", handleResponse.bind(this,login));
 export default router;

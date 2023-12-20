@@ -16,10 +16,10 @@ const seeder = async () => {
   try {
     const hash = await crypto.AES.encrypt("vartika", process.env.SECRET_KEY);
     const admin = new User({
-      firstname: "vartika",
-      lastname: "dhoot",
-      username: "vats",
-      email: "vartikadhoot14112000@gmail.com",
+      firstname: "rakshit",
+      lastname: "agr",
+      username: "raks",
+      email: "rakshit@gmail.com",
       password: hash,
       dob: new Date("11-14-2000"),
     });

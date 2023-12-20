@@ -17,7 +17,7 @@
   width: 50%;
   display: flex;
   flex-direction: column;
-  background-color: #fff;
+  background-color: var(--whiteBg);
   max-width: 40rem;
   border-radius: 2rem;
   align-items: center;
@@ -64,7 +64,7 @@
   width: 100%;
 }
 .error-message {
-  color: rgba(163, 19, 19, 0.806);
+  color: var(--error);
   font-size: 1.3rem;
   padding: 1rem 0.5rem;
 }
@@ -75,11 +75,11 @@
 .login-button {
   background-color: var(--maincolor);
   border: none;
-  color: #faf8f1;
+  color: var(--bg-color);
   padding: 1rem 3rem;
   border-radius: 2rem;
   font-size: 2rem;
-  box-shadow: 0 0 1.2rem #a2908a;
+  box-shadow: 0 0 1.2rem var(--taglinecolor);
   transition: all 0.4s;
 }
 .login-button:hover {
@@ -95,10 +95,6 @@
   gap: 1.8rem;
   width: 100%;
   align-items: flex-start;
-}
-.invalid {
-  border: 1px solid red;
-  background-color: rgba(251, 191, 191, 0.42);
 }
 .question {
   padding: 1rem;

@@ -4,4 +4,7 @@
   --taglinecolor: #a2908a;
   --inputcolor: #c5bab8;
   --inputcolorval: #ad8b73;
+  --whiteBg: #fff;
+  --error: rgba(163, 19, 19, 0.806);
+  --navbarBg: #d6c7ae;
 }

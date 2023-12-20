@@ -1,0 +1,11 @@
+.navbar-container {
+  background-color: var(--navbarBg);
+  display: flex;
+  justify-content: space-between;
+}
+
+.heading {
+  font-size: 4rem;
+  color: var(--maincolor);
+  padding: 1.5rem 1rem;
+}

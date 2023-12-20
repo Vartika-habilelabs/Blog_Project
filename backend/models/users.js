@@ -24,6 +24,7 @@ const UserSchema = new Schema({
   username: {
     type: String,
     required: [true, "username is required"],
+    unique: true,
     validate: [
       {
         validator: (value) => value.length < 15,
@@ -33,8 +34,8 @@ const UserSchema = new Schema({
   },
   email: {
     type: String,
-    required: [true, "Email is required"],
     unique: true,
+    required: [true, "Email is required"],
     trim: true,
     validate: [
       {

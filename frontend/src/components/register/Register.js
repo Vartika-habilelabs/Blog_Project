@@ -1,32 +1,33 @@
 import classes from "./Register.module.css";
 import { useForm } from "react-hook-form";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { saveUsertodb } from "../../store/reducer/userSlice";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { loginSchema, signupSchema } from "./validation";
+import { useNavigate } from "react-router-dom";
+import { Loader } from "../loader";
 
-export const Register = ({ route }) => {
+export const Register = ({ isLogin }) => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
-  const form = useForm();
+  // const loading=true;
+  const { loading } = useSelector((state) => state.user);
+  const form = useForm({
+    resolver: yupResolver(isLogin ? loginSchema : signupSchema),
+    mode: "all",
+  });
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = form;
-  const validations = (label, maxLength) => {
-    return {
-      ...register(label, {
-        required: `Required`,
-        maxLength: {
-          value: maxLength,
-          message: "Length exceeds 15 char",
-        },
-      }),
-    };
+  const whenSubmitted = async (data) => {
+    const result = dispatch(saveUsertodb(data));
+    console.log(result, "result");
   };
-  const whenSubmitted = (data) => {
-    console.log(data);
-    dispatch(saveUsertodb(data));
-  };
-  return (
+  return loading ? (
+    <Loader />
+  ) : (
     <div className={`${classes["login-container"]} wrapper`}>
       <div className={`${classes["logo-container"]}`}>
         <h1 className={`${classes["heading"]}`}>Blogosphere</h1>
@@ -36,13 +37,13 @@ export const Register = ({ route }) => {
       </div>
       <div className={`${classes["form-container"]}`}>
         <h1 className={`${classes["login-heading"]}`}>
-          {route === "signup" ? "Signup" : "Login"}
+          {!isLogin ? "Signup" : "Login"}
         </h1>
         <form
           onSubmit={handleSubmit(whenSubmitted)}
           className={classes["form-data"]}
         >
-          {route === "signup" && (
+          {!isLogin && (
             <>
               <div className={`${classes["name-container"]}`}>
                 <div className={classes["input-group"]}>
@@ -51,7 +52,7 @@ export const Register = ({ route }) => {
                     type="text"
                     placeholder="firstname"
                     id="firstname"
-                    {...validations("firstname", 15)}
+                    {...register("firstname")}
                   ></input>
                   {!!errors.firstname && (
                     <p className={classes["error-message"]}>
@@ -65,7 +66,7 @@ export const Register = ({ route }) => {
                     type="text"
                     placeholder="lastname"
                     id="lastname"
-                    {...validations("lastname", 15)}
+                    {...register("lastname")}
                   ></input>
                   {!!errors.lastname && (
                     <p className={classes["error-message"]}>
@@ -81,7 +82,7 @@ export const Register = ({ route }) => {
                     type="text"
                     placeholder="username"
                     id="username"
-                    {...validations("username", 15)}
+                    {...register("username")}
                   ></input>
                   {!!errors.username && (
                     <p className={classes["error-message"]}>
@@ -95,9 +96,7 @@ export const Register = ({ route }) => {
                     type="date"
                     data-date-format="MM DD YYYY"
                     placeholder="Date of birth"
-                    {...register("dob", {
-                      required: "Required",
-                    })}
+                    {...register("dob")}
                   ></input>
                   {!!errors.dob && (
                     <p className={classes["error-message"]}>
@@ -113,13 +112,7 @@ export const Register = ({ route }) => {
               className={`${classes["input-container"]}`}
               type="email"
               placeholder="email"
-              {...register("email", {
-                required: "Required",
-                pattern: {
-                  value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-                  message: "Invalid Email",
-                },
-              })}
+              {...register("email")}
             ></input>
             {!!errors.email && (
               <p className={classes["error-message"]}>{errors.email.message}</p>
@@ -130,7 +123,7 @@ export const Register = ({ route }) => {
               className={`${classes["input-container"]}`}
               type="password"
               placeholder="password"
-              {...validations("password", 20)}
+              {...register("password")}
             ></input>
             {!!errors.password && (
               <p className={classes["error-message"]}>
@@ -140,12 +133,20 @@ export const Register = ({ route }) => {
           </div>
           <button className={`${classes["login-button"]}`}>Submit</button>
 
-          {route === "signup" ? (
-            <p className={`${classes["question"]}`}>
+          {!isLogin ? (
+            <p
+              onClick={() => navigate("/login")}
+              className={`${classes["question"]}`}
+            >
               Already have an account ?
             </p>
           ) : (
-            <p className={`${classes["question"]}`}>Don't have an account ?</p>
+            <p
+              onClick={() => navigate("/signup")}
+              className={`${classes["question"]}`}
+            >
+              Don't have an account ?
+            </p>
           )}
         </form>
       </div>
