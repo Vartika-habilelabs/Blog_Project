@@ -1,17 +1,22 @@
 import classes from "./Register.module.css";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-import { saveUsertodb } from "../../store/reducer/userSlice";
+import { saveUsertodb, login } from "../../store/reducer/userSlice";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { loginSchema, signupSchema } from "./validation";
 import { useNavigate } from "react-router-dom";
 import { Loader } from "../loader";
+import { useEffect } from "react";
 
 export const Register = ({ isLogin }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   // const loading=true;
-  const { loading } = useSelector((state) => state.user);
+  const { loading, user } = useSelector((state) => state.user);
+  useEffect(() => {
+    if (user) navigate("/");
+  }, [user, navigate]);
+
   const form = useForm({
     resolver: yupResolver(isLogin ? loginSchema : signupSchema),
     mode: "all",
@@ -22,8 +27,7 @@ export const Register = ({ isLogin }) => {
     formState: { errors },
   } = form;
   const whenSubmitted = async (data) => {
-    const result = dispatch(saveUsertodb(data));
-    console.log(result, "result");
+    dispatch(isLogin ? login(data) : saveUsertodb(data));
   };
   return loading ? (
     <Loader />

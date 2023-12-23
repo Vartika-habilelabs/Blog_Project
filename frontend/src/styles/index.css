@@ -7,4 +7,5 @@
   --whiteBg: #fff;
   --error: rgba(163, 19, 19, 0.806);
   --navbarBg: #d6c7ae;
+  --toastify-toast-width: 320px;
 }

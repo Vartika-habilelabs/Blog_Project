@@ -3,9 +3,26 @@
   display: flex;
   justify-content: space-between;
 }
-
+.logout-container {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0 2rem;
+}
 .heading {
   font-size: 4rem;
   color: var(--maincolor);
   padding: 1.5rem 1rem;
+}
+.user-icon {
+  font-size: 2rem;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: var(--bg-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--maincolor);
+  color:var(--maincolor)
 }

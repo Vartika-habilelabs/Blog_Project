@@ -6,11 +6,13 @@ import { Provider } from "react-redux";
 import store from "./store";
 import { RouterProvider } from "react-router-dom";
 import router from "./routes";
-
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <Provider store={store}>
     <RouterProvider router={router} />
+    <ToastContainer theme="colored" />
   </Provider>
 );
 

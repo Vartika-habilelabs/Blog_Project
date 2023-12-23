@@ -23,7 +23,7 @@ const signup = async (req, res) => {
     });
     await newUser.save();
     const token = jwt.sign(newUser.toJSON(), process.env.SECRET_KEY);
-    return { newUser, token };
+    return { ...newUser.toJSON(), token };
   } catch (err) {
     console.log(err, "error");
     const { name } = err;
@@ -59,7 +59,8 @@ const login = async (req, res) => {
       );
       const unhashpassword = bytes.toString(crypto.enc.Utf8);
       if (unhashpassword === password) {
-        return savedUser;
+        const token = jwt.sign(savedUser.toJSON(), process.env.SECRET_KEY);
+        return {...savedUser.toJSON(),token};
       } else
         throw {
           status: 422,
@@ -73,6 +74,8 @@ const login = async (req, res) => {
     }
   } catch (err) {
     console.log(err, "error in login");
+    if (!err.status) err.status = 500;
+    if (!err.message) err.message = "Internal server error";
     throw err;
   }
 };

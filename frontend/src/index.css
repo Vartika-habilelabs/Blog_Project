@@ -21,3 +21,7 @@ body {
   max-width: 1444px;
   /* height: 100%; */
 }
+.Toastify__toast-body {
+  font-size: 1.5rem;
+  font-weight: 600;
+}
