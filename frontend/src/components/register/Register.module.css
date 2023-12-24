@@ -76,7 +76,6 @@
   background-color: var(--maincolor);
   border: none;
   color: var(--bg-color);
-  padding: 1rem 3rem;
   border-radius: 2rem;
   font-size: 2rem;
   box-shadow: 0 0 1.2rem var(--taglinecolor);

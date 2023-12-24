@@ -1,7 +1,7 @@
 import { User } from "../models/index.js";
 import crypto from "crypto-js";
 import dotenv from "dotenv";
-import { statusMessages } from "../config/index.js";
+import { statusMessages, statusCodes } from "../config/index.js";
 import jwt from "jsonwebtoken";
 dotenv.config();
 const TitleCase = (s) => {
@@ -34,13 +34,16 @@ const signup = async (req, res) => {
         dupe = TitleCase(dupe);
         switch (code) {
           case 11000:
-            throw { status: 422, message: `${dupe} is already taken` };
+            throw {
+              status: statusCodes.CONFLICT,
+              message: `${dupe} is already taken`,
+            };
         }
         break;
       case "ValidationError":
         const { message } = err;
         const resToSend = message.split(":").slice(-1)[0].trim();
-        throw { status: 422, message: resToSend };
+        throw { status: statusCodes.NOT_ACCEPTABLE, message: resToSend };
     }
   }
 };
@@ -49,7 +52,10 @@ const login = async (req, res) => {
     const { body } = req;
     const { email, password } = body;
     if (!email || !password) {
-      throw { status: 422, message: "All the fields are required" };
+      throw {
+        status: statusCodes.NOT_ACCEPTABLE,
+        message: statusMessages.ALL_FIELDS_REQUIRED,
+      };
     }
     const savedUser = await User.findOne({ email });
     if (savedUser) {
@@ -60,22 +66,22 @@ const login = async (req, res) => {
       const unhashpassword = bytes.toString(crypto.enc.Utf8);
       if (unhashpassword === password) {
         const token = jwt.sign(savedUser.toJSON(), process.env.SECRET_KEY);
-        return {...savedUser.toJSON(),token};
+        return { ...savedUser.toJSON(), token };
       } else
         throw {
-          status: 422,
+          status: statusCodes.CONFLICT,
           message: statusMessages.USER_LOGIN_PASSWORD_FAILURE,
         };
     } else {
       throw {
-        status: 422,
+        status: statusCodes.BAD_REQUEST,
         message: statusMessages.USER_LOGIN_FAILURE,
       };
     }
   } catch (err) {
     console.log(err, "error in login");
-    if (!err.status) err.status = 500;
-    if (!err.message) err.message = "Internal server error";
+    if (!err.status) err.status = statusCodes.INTERNAL_SERVER_ERROR;
+    if (!err.message) err.message = statusMessages.SERVER_ERROR;
     throw err;
   }
 };

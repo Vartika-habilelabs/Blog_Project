@@ -7,6 +7,7 @@ import { loginSchema, signupSchema } from "./validation";
 import { useNavigate } from "react-router-dom";
 import { Loader } from "../loader";
 import { useEffect } from "react";
+import { Button } from "../button";
 
 export const Register = ({ isLogin }) => {
   const navigate = useNavigate();
@@ -135,7 +136,7 @@ export const Register = ({ isLogin }) => {
               </p>
             )}
           </div>
-          <button className={`${classes["login-button"]}`}>Submit</button>
+          <Button className={`${classes["login-button"]}`}>Submit</Button>
 
           {!isLogin ? (
             <p

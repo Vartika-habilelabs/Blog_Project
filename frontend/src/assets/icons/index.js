@@ -1,2 +1,3 @@
 import LogoutBtn from "./logoutBtn.svg";
-export { LogoutBtn };
+import HamburgerBtn from "./hamburger.svg"
+export { LogoutBtn, HamburgerBtn};

@@ -1,1 +1,1 @@
-export { LogoutBtn } from "./icons";
+export { LogoutBtn, HamburgerBtn } from "./icons";
