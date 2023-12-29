@@ -7,5 +7,8 @@
   --whiteBg: #fff;
   --error: rgba(163, 19, 19, 0.806);
   --navbarBg: #d6c7ae;
+  --blogCardBg: #3f2305;
   --toastify-toast-width: 320px;
+  --lightTextColor: rgba(56, 56, 56, 0.194);
+  --shadow: rgba(0, 0, 0, 0.902);
 }

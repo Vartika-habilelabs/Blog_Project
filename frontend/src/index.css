@@ -19,6 +19,7 @@ body {
 }
 .wrapper {
   max-width: 1444px;
+  margin: 0 auto;
   /* height: 100%; */
 }
 .Toastify__toast-body {

@@ -5,9 +5,8 @@ import { saveUsertodb, login } from "../../store/reducer/userSlice";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { loginSchema, signupSchema } from "./validation";
 import { useNavigate } from "react-router-dom";
-import { Loader } from "../loader";
 import { useEffect } from "react";
-import { Button } from "../button";
+import { Button, Loader } from "../../components";
 
 export const Register = ({ isLogin }) => {
   const navigate = useNavigate();

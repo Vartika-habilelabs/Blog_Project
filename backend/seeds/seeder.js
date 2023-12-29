@@ -1,10 +1,11 @@
 import tags from "./tags.js";
-import { Tag, User } from "../models/index.js";
+import { Blog, Tag, User } from "../models/index.js";
 import { connectDB } from "../db/index.js";
 import { statusMessages } from "../config/index.js";
 import mongoose from "mongoose";
 import crypto from "crypto-js";
 import dotenv from "dotenv";
+import { blogs } from "./blogs.js";
 dotenv.config();
 const seeder = async () => {
   try {
@@ -12,6 +13,12 @@ const seeder = async () => {
     await Tag.insertMany(tags.map((tag) => ({ tag })));
   } catch (err) {
     console.log("error in tags", err);
+  }
+  try {
+    await Blog.deleteMany({});
+    await Blog.insertMany(blogs.map((blog) => ({ ...blog })));
+  } catch (err) {
+    console.log("error in blogs", err);
   }
   try {
     const hash = await crypto.AES.encrypt("vartika", process.env.SECRET_KEY);

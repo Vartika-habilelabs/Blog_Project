@@ -1,5 +1,7 @@
-.navbar-container {
+.main-navbar {
   background-color: var(--navbarBg);
+}
+.navbar-container {
   display: flex;
   justify-content: space-between;
 }

@@ -7,4 +7,5 @@ const tags = [
   "technology",
   "career",
 ];
+
 export default tags;

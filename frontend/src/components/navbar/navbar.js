@@ -22,44 +22,49 @@ export const Navbar = () => {
     setShowBtn((prev) => !prev);
   };
   return (
-    <nav className={classes["navbar-container"]}>
-      <div className={classes["logo-container"]}>
-        <h1 className={classes.heading}>Blogosphere</h1>
-      </div>
-      {user && (
-        <>
-          <div className={classes["logout-container"]}>
-            <Button className={classes["logout-button"]} onClick={handleLogout}>
-              Logout
-            </Button>
-            <p className={classes["user-icon"]}>
-              {user.firstname.charAt(0).toUpperCase()}
-            </p>
-          </div>
-          {showBtn ? (
-            <button
-              onClick={handleHamburgerHandler}
-              className={classes["hamburger-btn"]}
-            >
-              <Image src={HamburgerBtn} />
-            </button>
-          ) : (
-            <div onClick={handleCloseHandler} className={classes.overlay}>
-              <div className={classes.hamburger}>
-                <Button
-                  className={classes["logout-button"]}
-                  onClick={handleLogout}
-                >
-                  Logout
-                </Button>
-                <p className={classes["user-icon"]}>
-                  {user.firstname.charAt(0).toUpperCase()}
-                </p>
-              </div>
+    <nav className={classes["main-navbar"]}>
+      <div className={`${classes["navbar-container"]} wrapper`}>
+        <div className={classes["logo-container"]}>
+          <h1 className={classes.heading}>Blogosphere</h1>
+        </div>
+        {user && (
+          <>
+            <div className={classes["logout-container"]}>
+              <Button
+                className={classes["logout-button"]}
+                onClick={handleLogout}
+              >
+                Logout
+              </Button>
+              <p className={classes["user-icon"]}>
+                {user.firstname.charAt(0).toUpperCase()}
+              </p>
             </div>
-          )}
-        </>
-      )}
+            {showBtn ? (
+              <button
+                onClick={handleHamburgerHandler}
+                className={classes["hamburger-btn"]}
+              >
+                <Image src={HamburgerBtn} />
+              </button>
+            ) : (
+              <div onClick={handleCloseHandler} className={classes.overlay}>
+                <div className={classes.hamburger}>
+                  <Button
+                    className={classes["logout-button"]}
+                    onClick={handleLogout}
+                  >
+                    Logout
+                  </Button>
+                  <p className={classes["user-icon"]}>
+                    {user.firstname.charAt(0).toUpperCase()}
+                  </p>
+                </div>
+              </div>
+            )}
+          </>
+        )}
+      </div>
     </nav>
   );
 };

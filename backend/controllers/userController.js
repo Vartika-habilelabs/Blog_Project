@@ -7,7 +7,7 @@ dotenv.config();
 const TitleCase = (s) => {
   return s.charAt(0).toUpperCase() + s.substr(1).toLowerCase();
 };
-const signup = async (req, res) => {
+const signup = async (req) => {
   try {
     const { body } = req;
     const { firstname, lastname, username, dob, email, password } = body;
@@ -47,7 +47,7 @@ const signup = async (req, res) => {
     }
   }
 };
-const login = async (req, res) => {
+const login = async (req) => {
   try {
     const { body } = req;
     const { email, password } = body;
@@ -80,8 +80,6 @@ const login = async (req, res) => {
     }
   } catch (err) {
     console.log(err, "error in login");
-    if (!err.status) err.status = statusCodes.INTERNAL_SERVER_ERROR;
-    if (!err.message) err.message = statusMessages.SERVER_ERROR;
     throw err;
   }
 };
