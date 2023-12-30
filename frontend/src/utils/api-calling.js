@@ -1,9 +1,11 @@
 import axios from "axios";
 import { Constants } from "../config";
 
-export const apiCalling = async (method, route, payload) => {
+export const apiCalling = async (method, route, payload = {}, query = {}) => {
   try {
-    const res = await axios[method](`${Constants.BASE_URL}${route}`, payload, {
+    const res = await axios[method](`${Constants.BASE_URL}${route}`, {
+      params: query,
+      payload,
       headers: {
         "Content-Type": "application/json",
         Authorization: sessionStorage.getItem("authToken"),

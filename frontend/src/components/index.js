@@ -3,3 +3,4 @@ export { Loader } from "./loader";
 export { Button } from "./button";
 export { BlogCard } from "./blogCard";
 export { Header } from "./header";
+export { TrendingBlogs } from "./trendingBlogs";

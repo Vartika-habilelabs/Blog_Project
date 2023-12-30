@@ -16,6 +16,7 @@ body {
 #root {
   background-color: var(--bg-color);
   height: 100%;
+  overflow: auto;
 }
 .wrapper {
   max-width: 1444px;

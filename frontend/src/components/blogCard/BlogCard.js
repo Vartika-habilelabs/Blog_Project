@@ -4,7 +4,6 @@ import { Image } from "../image";
 import classes from "./blogCard.module.css";
 
 const DateWithoutTime = (date) => {
-  console.log(date);
   const tillTime = date.indexOf("T");
   return date.substring(0, tillTime).split("-");
 };
@@ -24,7 +23,6 @@ const monthNames = [
 ];
 
 export const BlogCard = (props) => {
-  console.log(props.blog);
   const { blog, index } = props;
   const { createdAt, createdBy, content } = blog;
   const date = DateWithoutTime(createdAt);
@@ -45,7 +43,7 @@ export const BlogCard = (props) => {
           </div>
           <div>~{createdBy}</div>
         </div>
-        <div>{content.substring(0, 100)} ...</div>
+        <div className={classes.content}>{content.substring(0, 100)} ...</div>
         <Button className={classes["read-morebtn"]}>Read more</Button>
       </div>
     </div>

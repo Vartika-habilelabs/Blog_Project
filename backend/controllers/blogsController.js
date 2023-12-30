@@ -1,5 +1,4 @@
 import { Blog } from "../models/index.js";
-// import { Types, isValidObjectId } from "mongoose";
 import { ObjectId } from "mongodb";
 const getAllBlogs = async (req) => {
   try {
@@ -25,7 +24,7 @@ const getAllBlogs = async (req) => {
         },
         {
           $sort: {
-            likedByCount: 1,
+            likedByCount: -1,
           },
         },
         {
@@ -34,7 +33,6 @@ const getAllBlogs = async (req) => {
           },
         },
       ]);
-      console.log(result, "*****");
       return result;
     }
     if (userId) condition._id = new ObjectId(userId);

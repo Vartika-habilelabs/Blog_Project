@@ -10,7 +10,8 @@ const TitleCase = (s) => {
 const signup = async (req) => {
   try {
     const { body } = req;
-    const { firstname, lastname, username, dob, email, password } = body;
+    const { payload } = body;
+    const { firstname, lastname, username, dob, email, password } = payload;
 
     const hashPassword = crypto.AES.encrypt(password, process.env.SECRET_KEY);
     const newUser = new User({
@@ -50,7 +51,8 @@ const signup = async (req) => {
 const login = async (req) => {
   try {
     const { body } = req;
-    const { email, password } = body;
+    const { payload } = body;
+    const { email, password } = payload;
     if (!email || !password) {
       throw {
         status: statusCodes.NOT_ACCEPTABLE,

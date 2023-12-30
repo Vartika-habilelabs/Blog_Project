@@ -36,7 +36,10 @@ export const Navbar = () => {
               >
                 Logout
               </Button>
-              <p className={classes["user-icon"]}>
+              <p
+                className={classes["user-icon"]}
+                onClick={() => navigate("/profile")}
+              >
                 {user.firstname.charAt(0).toUpperCase()}
               </p>
             </div>
@@ -56,7 +59,10 @@ export const Navbar = () => {
                   >
                     Logout
                   </Button>
-                  <p className={classes["user-icon"]}>
+                  <p
+                    onClick={() => console.log("hiii")}
+                    className={classes["user-icon"]}
+                  >
                     {user.firstname.charAt(0).toUpperCase()}
                   </p>
                 </div>
