@@ -3,13 +3,13 @@ import { ObjectId } from "mongodb";
 const getAllBlogs = async (req) => {
   try {
     const {
-      trending,
+      trending = false,
       userId,
       isDeleted = false,
       isPublished = true,
     } = req.query;
     const condition = { isDeleted: false, isPublished: true };
-    if (trending) {
+    if (JSON.parse(trending)) {
       const result = await Blog.aggregate([
         {
           $match: {
@@ -40,7 +40,6 @@ const getAllBlogs = async (req) => {
       condition.isDeleted = true;
     }
     if (!JSON.parse(isPublished)) condition.isPublished = false;
-
     const res = await Blog.find({ ...condition });
     return res;
   } catch (error) {

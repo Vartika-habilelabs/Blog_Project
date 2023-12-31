@@ -73,21 +73,9 @@
   color: var(--taglinecolor);
 }
 .login-button {
-  background-color: var(--maincolor);
   border: none;
-  color: var(--bg-color);
-  border-radius: 2rem;
-  font-size: 2rem;
-  box-shadow: 0 0 1.2rem var(--taglinecolor);
-  transition: all 0.4s;
 }
-.login-button:hover {
-  padding: 1rem 3.2rem;
-  scale: 1.2;
-  font-weight: 500;
-  border-radius: 2.5rem;
-  cursor: pointer;
-}
+
 .name-container {
   display: flex;
   align-items: center;
@@ -111,7 +99,7 @@
     justify-content: center;
   }
 }
-@media (max-width: 469px) {
+@media (max-width: 569px) {
   .form-container {
     max-width: 30rem;
     max-height: 75%;

@@ -15,6 +15,7 @@
   font-size: 4rem;
   color: var(--maincolor);
   padding: 1.5rem 1rem;
+  cursor: pointer;
 }
 .user-icon {
   font-size: 2rem;
@@ -34,13 +35,7 @@
 }
 .logout-button {
   color: var(--maincolor);
-  font-size: 2rem;
-  font-weight: 500;
-  background-color: var(--bg-color);
   border: 2px solid var(--maincolor);
-  border-radius: 0.5rem;
-  padding: 0.5rem 1rem;
-  cursor: pointer;
 }
 
 @media (max-width: 569px) {

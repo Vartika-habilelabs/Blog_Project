@@ -25,12 +25,15 @@ export const Navbar = () => {
     <nav className={classes["main-navbar"]}>
       <div className={`${classes["navbar-container"]} wrapper`}>
         <div className={classes["logo-container"]}>
-          <h1 className={classes.heading}>Blogosphere</h1>
+          <h1 className={classes.heading} onClick={() => navigate("/")}>
+            Blogosphere
+          </h1>
         </div>
         {user && (
           <>
             <div className={classes["logout-container"]}>
               <Button
+                color="secondary"
                 className={classes["logout-button"]}
                 onClick={handleLogout}
               >
@@ -54,6 +57,7 @@ export const Navbar = () => {
               <div onClick={handleCloseHandler} className={classes.overlay}>
                 <div className={classes.hamburger}>
                   <Button
+                  color="secondary"
                     className={classes["logout-button"]}
                     onClick={handleLogout}
                   >

@@ -4,7 +4,18 @@ export const trendingBlogs = createAsyncThunk(
   "Blogs/trendingBlogs",
   async (object, { rejectWithValue }) => {
     try {
-      const result = apiCalling("get", "/blogs",{},{trending:true});
+      const result = await apiCalling("get", "/blogs", {}, { trending: true });
+      return result;
+    } catch (err) {
+      rejectWithValue(err);
+    }
+  }
+);
+export const userBlogs = createAsyncThunk(
+  "Blogs/userBlogs",
+  async (object, { rejectWithValue }) => {
+    try {
+      const result = await apiCalling("get", "/blogs", {}, object);
       return result;
     } catch (err) {
       rejectWithValue(err);
@@ -23,10 +34,16 @@ const blogSlice = createSlice({
       state.blogs.trending = payload;
     });
     builder.addCase(trendingBlogs.rejected, (state, action) => {
-      console.log(action);
     });
     builder.addCase(trendingBlogs.pending, (state, action) => {
-      console.log(action);
+    });
+    builder.addCase(userBlogs.fulfilled, (state, action) => {
+      const { payload } = action;
+      state.blogs.userBlog = payload;
+    });
+    builder.addCase(userBlogs.rejected, (state, action) => {
+    });
+    builder.addCase(userBlogs.pending, (state, action) => {
     });
   },
 });

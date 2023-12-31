@@ -9,15 +9,12 @@
   background-color: var(--blogCardBg);
   border-radius: 2rem;
   font-size: 1.5rem;
-  /* font-weight: 400; */
   display: flex;
   flex-direction: column;
   gap: 1.4rem;
   box-shadow: 5px 5px 20px var(--shadow);
 }
-/* .content{
-  font-size: 1.5rem;
-} */
+
 .user {
   display: flex;
   justify-content: space-between;
@@ -25,17 +22,7 @@
 }
 .read-morebtn {
   width: fit-content;
-  font-weight: 600;
-  font-size: 1.4rem;
-  padding: 1rem;
-  border-radius: 0.5rem;
   border: none;
 }
-.numbered-card {
-  display: flex;
-  gap: 1rem;
-}
-.number {
-  font-size: 5rem;
-  color: var(--lightTextColor);
-}
+
+

@@ -18,7 +18,12 @@ export const TrendingBlogs = () => {
       <div className={`${classes["blogs-container"]}`}>
         {trending &&
           trending.map((blog, index) => (
-            <BlogCard key={index} blog={blog} index={index} />
+            <div className={classes.blogs} key={index}>
+              <h1 className={classes.number}>
+                {index < 10 ? `0${index + 1}` : `${index + 1}`}
+              </h1>
+              <BlogCard blog={blog} index={index} />
+            </div>
           ))}
       </div>
     </div>
