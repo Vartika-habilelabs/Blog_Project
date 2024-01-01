@@ -1,7 +1,7 @@
 import classes from "./Blogs.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { BlogCard, Header, Loader } from "../../components";
-import { Trending } from "../../assets";
+import { Trending, Published, Deleted } from "../../assets";
 import { useEffect } from "react";
 import { userBlogs } from "../../store/reducer/blogSlice";
 
@@ -28,7 +28,10 @@ export const Blogs = (props) => {
 
   return userBlog ? (
     <div className={`${classes["trending"]} wrapper`}>
-      <Header imgsrc={Trending} content={props.heading} />
+      <Header
+        imgsrc={props.heading === "Published" ? `${Published}` : `${Deleted}`}
+        content={props.heading}
+      />
       <div className={`${classes["blogs-container"]}`}>
         {userBlog.map((blog, index) => (
           <BlogCard key={index} blog={blog} index={index} />

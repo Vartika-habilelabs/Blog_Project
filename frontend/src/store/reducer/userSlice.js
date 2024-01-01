@@ -11,7 +11,7 @@ export const saveUsertodb = createAsyncThunk(
     } catch (err) {
       const { response } = err;
       const { data } = response;
-      toast.error(data);
+      toast.error(data || "Something went wrong!");
       console.log(data);
       return rejectWithValue(err);
     }
@@ -26,9 +26,8 @@ export const login = createAsyncThunk(
       return res;
     } catch (err) {
       const { response } = err;
-      const { data } = response;
-      toast.error(data);
-      console.log(data);
+      const { data } = response || {};
+      toast.error(data || "Something went wrong, try again!");
       return rejectWithValue(err);
     }
   }
@@ -58,7 +57,6 @@ const userSlice = createSlice({
     });
     builder.addCase(saveUsertodb.rejected, (state, action) => {
       state.loading = false;
-      const { response } = action;
     });
     builder.addCase(login.fulfilled, (state, action) => {
       state.loading = false;
@@ -71,7 +69,6 @@ const userSlice = createSlice({
     });
     builder.addCase(login.rejected, (state, action) => {
       state.loading = false;
-      const { response } = action;
     });
   },
 });

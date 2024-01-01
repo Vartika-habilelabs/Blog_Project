@@ -29,4 +29,5 @@ export const Validations = {
       "weak password"
     )
     .min(8, "Minimum 8 characters are required"),
+    required: yup.string().required("Required")
 };
