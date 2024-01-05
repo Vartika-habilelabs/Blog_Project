@@ -17,17 +17,14 @@ function getFormattedDate(dateString) {
 export const BlogCard = (props) => {
   const { blog } = props;
   const { createdAt, createdBy, content } = blog;
-  const date = getFormattedDate(createdAt); 
-
+  const date = getFormattedDate(createdAt);
   return (
     <div className={classes["blog-card"]}>
       <div className={classes["blog-img"]}>
         <Image src={blog.img ? blog.img : vk} />
       </div>
       <div className={classes.user}>
-        <div className={classes["created-at"]}>
-          {date}
-        </div>
+        <div className={classes["created-at"]}>{date}</div>
         <div>~{createdBy}</div>
       </div>
       <div className={classes.content}>{content.substring(0, 100)} ...</div>

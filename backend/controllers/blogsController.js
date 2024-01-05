@@ -1,4 +1,4 @@
-import { Blog } from "../models/index.js";
+import { Blog, User } from "../models/index.js";
 import { ObjectId } from "mongodb";
 const getAllBlogs = async (req) => {
   try {
@@ -35,15 +35,61 @@ const getAllBlogs = async (req) => {
       ]);
       return result;
     }
-    if (userId) condition._id = new ObjectId(userId);
+    if (userId) condition.userId = new ObjectId(userId);
     if (JSON.parse(isDeleted)) {
       condition.isDeleted = true;
     }
     if (!JSON.parse(isPublished)) condition.isPublished = false;
+    console.log(condition);
     const res = await Blog.find({ ...condition });
     return res;
   } catch (error) {
     throw error;
   }
 };
-export { getAllBlogs };
+
+const createBlog = async (req) => {
+  try {
+    const { payload } = req.body;
+    const {
+      _id,
+    } = payload;
+    const newBlog = new Blog({
+      ...payload,
+        createdBy: _id,
+        createdAt: new Date(),        
+        likedBy: [],
+    });
+    await newBlog.save();
+    // const result = Blog.aggregate([
+    //   {
+    //     $lookup: {
+    //       from: "users",
+    //       localField: "createdBy",
+    //       foreignField: "_id",
+    //       as: "embeddedData",
+    //     },
+    //   },
+    //   {
+    //     $unwind: "$embeddedData", // If you want to unwind the array (optional)
+    //   },
+    //   {
+    //     $project: {
+    //       $set: {
+    //         $literal: true,
+    //       },
+    //     },
+    //     embeddedData: {
+    //       $set: {
+    //         $literal: true,
+    //       },
+    //     },
+    //   },
+    // ]);
+    return { ...newBlog.toJSON() };
+  } catch (err) {
+    console.log(err, "err in saving blog");
+    throw err;
+  }
+};
+export { getAllBlogs, createBlog };

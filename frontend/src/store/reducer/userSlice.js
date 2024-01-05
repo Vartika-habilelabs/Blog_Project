@@ -10,7 +10,7 @@ export const saveUsertodb = createAsyncThunk(
       return res;
     } catch (err) {
       const { response } = err;
-      const { data } = response;
+      const { data } = response || {};
       toast.error(data || "Something went wrong!");
       console.log(data);
       return rejectWithValue(err);

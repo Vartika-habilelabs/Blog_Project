@@ -1,5 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { apiCalling } from "../../utils";
+import { toast } from "react-toastify";
+
 export const trendingBlogs = createAsyncThunk(
   "Blogs/trendingBlogs",
   async (object, { rejectWithValue }) => {
@@ -22,6 +24,21 @@ export const userBlogs = createAsyncThunk(
     }
   }
 );
+export const saveBlogsToDb = createAsyncThunk(
+  "Blogs/saveBlogsToDb",
+  async (object, { rejectWithValue }) => {
+    try {
+      const result = await apiCalling("post", "/blogs/create", object);
+      toast.success("Blog saved successfully");
+      return result;
+    } catch (err) {
+      const { response } = err;
+      const { data } = response || {};
+      toast.error(data || "Something went wrong, try again!");
+      return rejectWithValue(err);
+    }
+  }
+);
 const blogSlice = createSlice({
   name: "Blogs",
   initialState: {
@@ -33,17 +50,17 @@ const blogSlice = createSlice({
       const { payload } = action;
       state.blogs.trending = payload;
     });
-    builder.addCase(trendingBlogs.rejected, (state, action) => {
-    });
-    builder.addCase(trendingBlogs.pending, (state, action) => {
-    });
+    builder.addCase(trendingBlogs.rejected, (state, action) => {});
+    builder.addCase(trendingBlogs.pending, (state, action) => {});
     builder.addCase(userBlogs.fulfilled, (state, action) => {
       const { payload } = action;
       state.blogs.userBlog = payload;
     });
-    builder.addCase(userBlogs.rejected, (state, action) => {
-    });
-    builder.addCase(userBlogs.pending, (state, action) => {
+    builder.addCase(userBlogs.rejected, (state, action) => {});
+    builder.addCase(userBlogs.pending, (state, action) => {});
+    builder.addCase(saveBlogsToDb.fulfilled, (state, action) => {
+      const { payload } = action;
+      console.log(payload);
     });
   },
 });

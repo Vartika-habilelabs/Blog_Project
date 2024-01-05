@@ -10,7 +10,7 @@ export const statusMessages = {
   USER_SAVE_FAILURE: "",
 
   USER_LOGIN_SUCCESS: "loggedin in successfully",
-  USER_LOGIN_PASSWORD_FAILURE: "Password didn't match",
+  USER_LOGIN_PASSWORD_FAILURE: "Invalid credentials",
   USER_LOGIN_FAILURE: "No such email exists, signup instead",
   ALL_FIELDS_REQUIRED: "All the fields are required",
   SERVER_ERROR:"Internal server error"

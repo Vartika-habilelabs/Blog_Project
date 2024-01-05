@@ -13,6 +13,8 @@
   padding: 2rem;
 }
 .blogs {
+  width:100%;
+  max-width: 42rem;
   display: flex;
   gap:1rem;
 }

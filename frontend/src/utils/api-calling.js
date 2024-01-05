@@ -18,7 +18,6 @@ export const apiCalling = async (method, route, payload = {}, query = {}) => {
     }
     return data;
   } catch (error) {
-    console.log(error,"**********")
     throw error;
   }
 };

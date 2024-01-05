@@ -14,15 +14,18 @@
   gap: 1.4rem;
   box-shadow: 5px 5px 20px var(--shadow);
 }
-
+.content {
+  height: 30%;
+  word-break: break-all;
+}
 .user {
   display: flex;
   justify-content: space-between;
   font-size: 1.8rem;
 }
 .read-morebtn {
+  bottom: 5px;
+  left: 5px;
   width: fit-content;
   border: none;
 }
-
-

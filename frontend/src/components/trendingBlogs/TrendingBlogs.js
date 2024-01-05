@@ -20,7 +20,7 @@ export const TrendingBlogs = () => {
           trending.map((blog, index) => (
             <div className={classes.blogs} key={index}>
               <h1 className={classes.number}>
-                {index < 10 ? `0${index + 1}` : `${index + 1}`}
+                {index < 9 ? `0${index + 1}` : `${index + 1}`}
               </h1>
               <BlogCard blog={blog} index={index} />
             </div>

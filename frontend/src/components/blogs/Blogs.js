@@ -1,7 +1,7 @@
 import classes from "./Blogs.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { BlogCard, Header, Loader } from "../../components";
-import { Trending, Published, Deleted } from "../../assets";
+import { Published, Deleted } from "../../assets";
 import { useEffect } from "react";
 import { userBlogs } from "../../store/reducer/blogSlice";
 

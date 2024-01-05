@@ -29,5 +29,10 @@ export const Validations = {
       "weak password"
     )
     .min(8, "Minimum 8 characters are required"),
-    required: yup.string().required("Required")
+  required: yup.string().required("Required"),
+  title: yup
+    .string()
+    .required("Required")
+    .max(100, "Title exceeds 100 characters"),
+  content: yup.string().required("Required").max(2000, "Limit reached"),
 };
