@@ -3,7 +3,7 @@ import { connectDB } from "./db/index.js";
 import dotenv from "dotenv";
 import { statusMessages } from "./config/index.js";
 import cors from "cors";
-import { loadRoutes } from "./utils/index.js";
+import { loadRoutes, logger } from "./utils/index.js";
 dotenv.config();
 const app = express();
 const port = process.env.PORT;
@@ -16,7 +16,6 @@ connectDB()
   .catch((err) => {
     console.log(err, statusMessages.MONGO_NOT_CONNECTED);
   });
-
 app.use(express.json());
 const corsOptions = {
   origin: "*",
@@ -25,6 +24,7 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
+app.use(logger);
 loadRoutes(app);
 
 app.listen(port, () => {

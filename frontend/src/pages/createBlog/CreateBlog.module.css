@@ -40,3 +40,15 @@
 .button {
   border: none;
 }
+@media (max-width: 569px) {
+  .input-container {
+    width: 100%;
+  }
+  .button-container {
+    width: 100%;
+    flex-wrap: wrap;
+  }
+  .error-message {
+    width: 100%;
+  }
+}

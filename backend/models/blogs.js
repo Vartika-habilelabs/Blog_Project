@@ -7,7 +7,6 @@ const blogsSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "Users",
   },
-  createdBy: String,
   createdAt: Date,
   content: String,
   likedBy: [

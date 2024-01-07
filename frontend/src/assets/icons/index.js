@@ -3,4 +3,14 @@ import HamburgerBtn from "./hamburger.svg";
 import Trending from "./trending.svg";
 import Published from "./tick.svg";
 import Deleted from "./deleted.svg";
-export { LogoutBtn, HamburgerBtn, Trending, Published, Deleted };
+import AppDrawer from "./app-drawer.svg";
+import Cross from "./cross.svg";
+export {
+  LogoutBtn,
+  HamburgerBtn,
+  Trending,
+  Published,
+  Deleted,
+  AppDrawer,
+  Cross,
+};

@@ -1,17 +1,38 @@
-import axios from "axios";
 import { Constants } from "../config";
 
-export const apiCalling = async (method, route, payload = {}, query = {}) => {
+const queryGenerator = (queryObj) => {
+  console.log(queryObj);
+  let query = "?";
+  for (let key in queryObj) {
+    query += `${key}=${queryObj[key]}&`;
+  }
+  query = query.slice(0, -1);
+  console.log(query);
+  return query;
+};
+
+export const apiCalling = async (method, route, payload = {}, query = null) => {
   try {
-    const res = await axios[method](`${Constants.BASE_URL}${route}`, {
-      params: query,
-      payload,
+    const URL = `${Constants.BASE_URL}${route}${
+      query ? queryGenerator(query) : ""
+    }`;
+    console.log(URL);
+    const res = await fetch(URL, {
+      method,
+      mode: "cors",
+      cache: "no-cache",
       headers: {
         "Content-Type": "application/json",
-        Authorization: sessionStorage.getItem("authToken"),
+        authorization: sessionStorage.getItem("authToken"),
       },
+      ...(method.toLowerCase() !== "get"
+        ? { body: JSON.stringify(payload) }
+        : {}),
     });
-    const { data } = res;
+    const data = await res.json();
+    if (!res.ok) {
+      throw data;
+    }
     if (data.token) {
       sessionStorage.setItem("authToken", data.token);
       delete data.token;

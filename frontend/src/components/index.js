@@ -6,3 +6,6 @@ export { Header } from "./header";
 export { TrendingBlogs } from "./trendingBlogs";
 export { ToggleBtn } from "./togglebtn";
 export { Blogs } from "./blogs";
+export { NotFound } from "./notFound";
+export { Image } from "./image";
+export { Popper } from "./popper";

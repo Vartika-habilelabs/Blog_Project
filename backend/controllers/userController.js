@@ -3,16 +3,14 @@ import crypto from "crypto-js";
 import dotenv from "dotenv";
 import { statusMessages, statusCodes } from "../config/index.js";
 import jwt from "jsonwebtoken";
+import { initialiseToken } from "../utils/index.js";
 dotenv.config();
 const TitleCase = (s) => {
   return s.charAt(0).toUpperCase() + s.substr(1).toLowerCase();
 };
 const signup = async (req) => {
   try {
-    const { body } = req;
-    const { payload } = body;
-    const { firstname, lastname, username, dob, email, password } = payload;
-
+    const { firstname, lastname, username, dob, email, password } = req.body;
     const hashPassword = crypto.AES.encrypt(password, process.env.SECRET_KEY);
     const newUser = new User({
       firstname,
@@ -23,7 +21,7 @@ const signup = async (req) => {
       password: hashPassword,
     });
     await newUser.save();
-    const token = jwt.sign(newUser.toJSON(), process.env.SECRET_KEY);
+    const token = initialiseToken(newUser);
     return { ...newUser.toJSON(), token };
   } catch (err) {
     console.log(err, "error");
@@ -50,9 +48,7 @@ const signup = async (req) => {
 };
 const login = async (req) => {
   try {
-    const { body } = req;
-    const { payload } = body;
-    const { email, password } = payload;
+    const { email, password } = req.body;
     if (!email || !password) {
       throw {
         status: statusCodes.NOT_ACCEPTABLE,

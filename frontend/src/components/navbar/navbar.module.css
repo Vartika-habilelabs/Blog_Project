@@ -37,8 +37,12 @@
   color: var(--maincolor);
   border: 2px solid var(--maincolor);
 }
-
 @media (max-width: 569px) {
+  .user-icon {
+    border-radius: none;
+    border: none;
+    width: 100%;
+  }
   .hamburger-btn {
     display: block;
     background: none;
@@ -46,11 +50,17 @@
     width: 5rem;
     cursor: pointer;
   }
+  .logout-profile {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem 0;
+  }
+  .logout-button {
+    border: none;
+  }
   .logout-container {
     display: none;
-  }
-  .overlay {
-    width: 100vw;
   }
   .hamburger {
     width: 75%;

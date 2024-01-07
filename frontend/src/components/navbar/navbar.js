@@ -56,19 +56,22 @@ export const Navbar = () => {
             ) : (
               <div onClick={handleCloseHandler} className={classes.overlay}>
                 <div className={classes.hamburger}>
-                  <Button
-                  color="secondary"
-                    className={classes["logout-button"]}
-                    onClick={handleLogout}
-                  >
-                    Logout
-                  </Button>
-                  <p
-                    onClick={() => console.log("hiii")}
-                    className={classes["user-icon"]}
-                  >
-                    {user.firstname.charAt(0).toUpperCase()}
-                  </p>
+                  <div className={classes["logout-profile"]}>
+                    <Button
+                      color="secondary"
+                      className={classes["logout-button"]}
+                      onClick={handleLogout}
+                    >
+                      Logout
+                    </Button>
+                    <Button
+                      color="secondary"
+                      onClick={() => navigate("/profile")}
+                      className={classes["user-icon"]}
+                    >
+                      Profile
+                    </Button>
+                  </div>
                 </div>
               </div>
             )}

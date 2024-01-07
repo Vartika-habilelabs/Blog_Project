@@ -1,2 +1,2 @@
-export { LogoutBtn, HamburgerBtn, Trending, Published, Deleted } from "./icons";
-export { vk } from "./images";
+export * from "./icons";
+export * from "./images";

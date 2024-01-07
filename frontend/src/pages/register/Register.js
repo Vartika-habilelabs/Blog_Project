@@ -6,12 +6,11 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { loginSchema, signupSchema } from "./validation";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
-import { Button, Loader } from "../../components";
+import { Button, Loader, Popper } from "../../components";
 
 export const Register = ({ isLogin }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  // const loading=true;
   const { loading, user } = useSelector((state) => state.user);
   useEffect(() => {
     if (user) navigate("/");
@@ -19,8 +18,12 @@ export const Register = ({ isLogin }) => {
 
   const form = useForm({
     resolver: yupResolver(isLogin ? loginSchema : signupSchema),
+    defaultValues: {
+      dob: "2001-12-12",
+    },
     mode: "all",
   });
+
   const {
     register,
     handleSubmit,
@@ -40,9 +43,6 @@ export const Register = ({ isLogin }) => {
         </p>
       </div>
       <div className={`${classes["form-container"]}`}>
-        <h1 className={`${classes["login-heading"]}`}>
-          {!isLogin ? "Signup" : "Login"}
-        </h1>
         <form
           onSubmit={handleSubmit(whenSubmitted)}
           className={classes["form-data"]}
@@ -54,7 +54,7 @@ export const Register = ({ isLogin }) => {
                   <input
                     className={`${classes["input-container"]}`}
                     type="text"
-                    placeholder="firstname"
+                    placeholder="Firstname"
                     id="firstname"
                     {...register("firstname")}
                   ></input>
@@ -68,7 +68,7 @@ export const Register = ({ isLogin }) => {
                   <input
                     className={`${classes["input-container"]}`}
                     type="text"
-                    placeholder="lastname"
+                    placeholder="Lastname"
                     id="lastname"
                     {...register("lastname")}
                   ></input>
@@ -84,7 +84,7 @@ export const Register = ({ isLogin }) => {
                   <input
                     className={`${classes["input-container"]}`}
                     type="text"
-                    placeholder="username"
+                    placeholder="Username"
                     id="username"
                     {...register("username")}
                   ></input>
@@ -98,8 +98,7 @@ export const Register = ({ isLogin }) => {
                   <input
                     className={`${classes["input-container"]}`}
                     type="date"
-                    data-date-format="MM DD YYYY"
-                    placeholder="Date of birth"
+                    id="dob"
                     {...register("dob")}
                   ></input>
                   {!!errors.dob && (
@@ -115,7 +114,7 @@ export const Register = ({ isLogin }) => {
             <input
               className={`${classes["input-container"]}`}
               type="email"
-              placeholder="email"
+              placeholder="Email"
               {...register("email")}
             ></input>
             {!!errors.email && (
@@ -126,7 +125,7 @@ export const Register = ({ isLogin }) => {
             <input
               className={`${classes["input-container"]}`}
               type="password"
-              placeholder="password"
+              placeholder="Password"
               {...register("password")}
             ></input>
             {!!errors.password && (
@@ -135,7 +134,9 @@ export const Register = ({ isLogin }) => {
               </p>
             )}
           </div>
-          <Button className={`${classes["login-button"]}`}>Submit</Button>
+          <Button className={`${classes["login-button"]}`}>
+            {isLogin ? `Login` : `Signup`}
+          </Button>
 
           {!isLogin ? (
             <p

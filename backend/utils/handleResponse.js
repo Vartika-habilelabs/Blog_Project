@@ -11,6 +11,6 @@ export const handleResponse = (...props) => {
         status = statusCodes.INTERNAL_SERVER_ERROR,
         message = statusMessages.SERVER_ERROR,
       } = error;
-      res.status(status).send(message);
+      res.status(status).send(JSON.stringify({ message }));
     });
 };

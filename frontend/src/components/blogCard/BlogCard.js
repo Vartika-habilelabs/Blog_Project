@@ -25,10 +25,12 @@ export const BlogCard = (props) => {
       </div>
       <div className={classes.user}>
         <div className={classes["created-at"]}>{date}</div>
-        <div>~{createdBy}</div>
+        <div>~{createdBy.username}</div>
       </div>
       <div className={classes.content}>{content.substring(0, 100)} ...</div>
+      <div className={classes.btnContainer}>
       <Button className={classes["read-morebtn"]}>Read more</Button>
+      </div>
     </div>
   );
 };

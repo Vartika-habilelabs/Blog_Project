@@ -11,4 +11,15 @@
   --toastify-toast-width: 320px;
   --lightTextColor: rgba(56, 56, 56, 0.194);
   --shadow: rgb(113 109 109 / 90%);
+  --box-shadow: rgba(150, 126, 118, 0.5);
+
+  /* --breakpoint-sm: 576px;
+  --breakpoint-md: 876px;
+  --breakpoint-lg: 1076px;
+  --breakpoint-xl: 1446px; */
+}
+.position-bottom-right {
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
 }

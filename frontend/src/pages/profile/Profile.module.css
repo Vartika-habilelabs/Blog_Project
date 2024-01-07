@@ -31,5 +31,8 @@
   width: 2px;
   background-color: var(--maincolor);
 }
-.blogs {
+@media (max-width: 869px) {
+  .blogs-nav {
+    display: none;
+  }
 }

@@ -25,9 +25,7 @@ export const login = createAsyncThunk(
       toast.success("Logged in successfully");
       return res;
     } catch (err) {
-      const { response } = err;
-      const { data } = response || {};
-      toast.error(data || "Something went wrong, try again!");
+      toast.error(err?.message || "Something went wrong, try again!");
       return rejectWithValue(err);
     }
   }
