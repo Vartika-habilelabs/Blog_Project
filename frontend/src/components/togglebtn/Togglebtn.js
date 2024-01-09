@@ -29,6 +29,15 @@ export const ToggleBtn = ({ handleCurrentStatus }) => {
       >
         Deleted
       </Button>
+      <Button
+        color="secondary"
+        className={`${classes["toggle-btn"]} ${
+          selectedValue === "Unpublished" ? classes.active : ""
+        }`}
+        onClick={() => handleToggle("Unpublished")}
+      >
+        Unpublished
+      </Button>
     </div>
   );
 };

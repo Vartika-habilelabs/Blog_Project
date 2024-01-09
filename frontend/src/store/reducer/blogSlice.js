@@ -28,8 +28,10 @@ export const saveBlogsToDb = createAsyncThunk(
   "Blogs/saveBlogsToDb",
   async (object, { rejectWithValue }) => {
     try {
-      const result = await apiCalling("post", "/blogs/create", object);
+      const { blogEntry, onSuccess } = object;
+      const result = await apiCalling("post", "/blogs/create", blogEntry);
       toast.success("Blog saved successfully");
+      if (onSuccess) onSuccess();
       return result;
     } catch (err) {
       const { response } = err;

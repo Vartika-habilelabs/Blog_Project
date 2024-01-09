@@ -5,7 +5,6 @@ import { Button } from "../button";
 import { Cross } from "../../assets";
 export const Popper = (props) => {
   const { data } = props;
-  console.log(props);
   const [openDrawer, setOpenDrawer] = useState(false);
   const handleDrawer = () => {
     setOpenDrawer((prev) => !prev);
@@ -17,8 +16,9 @@ export const Popper = (props) => {
         className={classes["cross-img"]}
         src={Cross}
       />
-      {data.map((val) => (
+      {data.map((val, index) => (
         <Button
+          key={index}
           className={classes.buttons}
           onClick={() => {
             val.onClick();

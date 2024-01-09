@@ -5,6 +5,7 @@ import Published from "./tick.svg";
 import Deleted from "./deleted.svg";
 import AppDrawer from "./app-drawer.svg";
 import Cross from "./cross.svg";
+import Unpublished from "./unpublished.svg";
 export {
   LogoutBtn,
   HamburgerBtn,
@@ -13,4 +14,5 @@ export {
   Deleted,
   AppDrawer,
   Cross,
+  Unpublished,
 };

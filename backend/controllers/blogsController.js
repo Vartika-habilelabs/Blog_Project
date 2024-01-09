@@ -4,7 +4,6 @@ const getAllBlogs = async (req) => {
   try {
     const {
       trending = false,
-      userId,
       isDeleted = false,
       isPublished = true,
     } = req.query;
@@ -25,18 +24,27 @@ const getAllBlogs = async (req) => {
             as: "createdBy",
           },
         },
+
         {
           $unwind: "$createdBy",
         },
         {
           $addFields: {
             likedByCount: { $size: "$likedBy" },
+            readTime: {
+              $ceil: {
+                $divide: [{ $size: { $split: ["$content", " "] } }, 238],
+              },
+            },
           },
         },
         {
           $sort: {
             likedByCount: -1,
           },
+        },
+        {
+          $limit: 6,
         },
         {
           $project: {
@@ -46,12 +54,48 @@ const getAllBlogs = async (req) => {
       ]);
       return result;
     }
-    if (userId) condition.userId = new ObjectId(userId);
+    const { _id } = req.user;
+    if (_id) condition.createdBy = new ObjectId(_id);
     if (JSON.parse(isDeleted)) {
       condition.isDeleted = true;
     }
     if (!JSON.parse(isPublished)) condition.isPublished = false;
-    const res = await Blog.find({ ...condition });
+    const res = await Blog.aggregate([
+      {
+        $match: { ...condition },
+      },
+      {
+        $lookup: {
+          from: "users",
+          localField: "createdBy",
+          foreignField: "_id",
+          as: "createdBy",
+        },
+      },
+      {
+        $unwind: "$createdBy",
+      },
+      {
+        $addFields: {
+          likedByCount: { $size: "$likedBy" },
+          readTime: {
+            $ceil: {
+              $divide: [{ $size: { $split: ["$content", " "] } }, 238],
+            },
+          },
+        },
+      },
+      {
+        $sort: {
+          likedByCount: -1,
+        },
+      },
+      {
+        $project: {
+          likedBy: 0,
+        },
+      },
+    ]);
     return res;
   } catch (error) {
     throw error;
@@ -60,10 +104,10 @@ const getAllBlogs = async (req) => {
 
 const createBlog = async (req) => {
   try {
-    const { payload } = req.body;
-    const { _id } = payload;
+    const { body, user } = req;
+    const { _id } = user;
     const newBlog = new Blog({
-      ...payload,
+      ...body,
       createdBy: _id,
       createdAt: new Date(),
       likedBy: [],

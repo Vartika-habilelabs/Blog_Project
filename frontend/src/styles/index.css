@@ -12,6 +12,7 @@
   --lightTextColor: rgba(56, 56, 56, 0.194);
   --shadow: rgb(113 109 109 / 90%);
   --box-shadow: rgba(150, 126, 118, 0.5);
+  --overlayBg: rgba(0, 0, 0, 0.271);
 
   /* --breakpoint-sm: 576px;
   --breakpoint-md: 876px;
@@ -22,4 +23,8 @@
   position: fixed;
   bottom: 1rem;
   right: 1rem;
+}
+input[type="checkbox"] {
+  width: 2rem;
+  height: 2rem;
 }

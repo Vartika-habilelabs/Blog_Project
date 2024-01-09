@@ -1,13 +1,11 @@
 import { Constants } from "../config";
 
 const queryGenerator = (queryObj) => {
-  console.log(queryObj);
   let query = "?";
   for (let key in queryObj) {
     query += `${key}=${queryObj[key]}&`;
   }
   query = query.slice(0, -1);
-  console.log(query);
   return query;
 };
 
@@ -16,7 +14,6 @@ export const apiCalling = async (method, route, payload = {}, query = null) => {
     const URL = `${Constants.BASE_URL}${route}${
       query ? queryGenerator(query) : ""
     }`;
-    console.log(URL);
     const res = await fetch(URL, {
       method,
       mode: "cors",

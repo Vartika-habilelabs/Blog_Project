@@ -2,7 +2,7 @@ import classes from "./button.module.css";
 export const Button = (props) => {
   return (
     <button
-      type={props.type}
+      type={props.type ? props.type : "button"}
       className={`${props.className} ${classes["button"]} ${
         props.color === "secondary" ? classes.btn : ""
       }`}

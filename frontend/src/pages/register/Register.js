@@ -6,7 +6,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { loginSchema, signupSchema } from "./validation";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
-import { Button, Loader, Popper } from "../../components";
+import { Button, Loader } from "../../components";
 
 export const Register = ({ isLogin }) => {
   const navigate = useNavigate();
@@ -30,6 +30,7 @@ export const Register = ({ isLogin }) => {
     formState: { errors },
   } = form;
   const whenSubmitted = async (data) => {
+    console.log(isLogin);
     dispatch(isLogin ? login(data) : saveUsertodb(data));
   };
   return loading ? (
@@ -134,7 +135,7 @@ export const Register = ({ isLogin }) => {
               </p>
             )}
           </div>
-          <Button className={`${classes["login-button"]}`}>
+          <Button type="submit" className={`${classes["login-button"]}`}>
             {isLogin ? `Login` : `Signup`}
           </Button>
 

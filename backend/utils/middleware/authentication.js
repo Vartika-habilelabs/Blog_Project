@@ -12,6 +12,7 @@ export const verifyToken = (req, res, next) => {
     res.status(422).send("You must be logged in");
   } else {
     jwt.verify(authorization, process.env.SECRET_KEY, async (err, payload) => {
+      req.user = payload;
       if (err) return res.status(422).send("logged in");
       next();
     });

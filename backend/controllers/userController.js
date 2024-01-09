@@ -2,7 +2,6 @@ import { User } from "../models/index.js";
 import crypto from "crypto-js";
 import dotenv from "dotenv";
 import { statusMessages, statusCodes } from "../config/index.js";
-import jwt from "jsonwebtoken";
 import { initialiseToken } from "../utils/index.js";
 dotenv.config();
 const TitleCase = (s) => {
@@ -63,7 +62,7 @@ const login = async (req) => {
       );
       const unhashpassword = bytes.toString(crypto.enc.Utf8);
       if (unhashpassword === password) {
-        const token = jwt.sign(savedUser.toJSON(), process.env.SECRET_KEY);
+        const token = initialiseToken(savedUser);
         return { ...savedUser.toJSON(), token };
       } else
         throw {

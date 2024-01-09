@@ -29,6 +29,10 @@ export const Profile = () => {
             onClick: () => handleCurrentStatus("Published"),
           },
           {
+            label: "Unpublished",
+            onClick: () => handleCurrentStatus("Unpublished"),
+          },
+          {
             label: "Deleted",
             onClick: () => handleCurrentStatus("Deleted"),
           },

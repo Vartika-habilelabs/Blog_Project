@@ -13,12 +13,19 @@
   padding: 2rem;
 }
 .blogs {
-  width:100%;
+  width: 100%;
   max-width: 42rem;
   display: flex;
-  gap:1rem;
+  gap: 1rem;
 }
 .number {
   font-size: 5rem;
   color: var(--lightTextColor);
+}
+@media (max-width: 896px) {
+  .blogs {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1.5rem;
+  }
 }
