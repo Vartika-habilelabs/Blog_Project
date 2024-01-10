@@ -46,7 +46,12 @@ export const Blogs = (props) => {
       <div className={`${classes["blogs-container"]}`}>
         {userBlog && userBlog.length ? (
           userBlog.map((blog, index) => (
-            <BlogCard key={index} blog={blog} index={index} />
+            <BlogCard
+              key={index}
+              blog={blog}
+              index={index}
+              action={heading === "Unpublished" ? true : false}
+            />
           ))
         ) : (
           <NotFound heading="Blogs"></NotFound>

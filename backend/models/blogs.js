@@ -9,12 +9,7 @@ const blogsSchema = new Schema({
   },
   createdAt: Date,
   content: String,
-  likedBy: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: "Users",
-    },
-  ],
+  likedCount: Number,
   isPublished: Boolean,
   isDeleted: Boolean,
 });

@@ -22,9 +22,6 @@ export const CreateBlog = () => {
     formState: { errors },
     reset,
   } = form;
-  // const toDeleteBlog = (data) => {
-  //   console.log(data);
-  // };
   const onSubmit = (data) => {
     const { content, title } = data;
     const blogEntry = {
@@ -36,7 +33,6 @@ export const CreateBlog = () => {
     dispatch(
       saveBlogsToDb({ blogEntry, onSuccess: () => navigate("/profile") })
     );
-    console.log(data);
   };
   return (
     <FormProvider {...form}>

@@ -1,3 +1,3 @@
 export const Constants = {
-  BASE_URL: "http://localhost:4000/api/v1",
+  BASE_URL: "http://192.168.139.124:4000/api/v1",
 };

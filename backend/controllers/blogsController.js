@@ -30,7 +30,6 @@ const getAllBlogs = async (req) => {
         },
         {
           $addFields: {
-            likedByCount: { $size: "$likedBy" },
             readTime: {
               $ceil: {
                 $divide: [{ $size: { $split: ["$content", " "] } }, 238],
@@ -40,16 +39,11 @@ const getAllBlogs = async (req) => {
         },
         {
           $sort: {
-            likedByCount: -1,
+            likedCount: -1,
           },
         },
         {
           $limit: 6,
-        },
-        {
-          $project: {
-            likedBy: 0,
-          },
         },
       ]);
       return result;
@@ -77,7 +71,6 @@ const getAllBlogs = async (req) => {
       },
       {
         $addFields: {
-          likedByCount: { $size: "$likedBy" },
           readTime: {
             $ceil: {
               $divide: [{ $size: { $split: ["$content", " "] } }, 238],
@@ -87,12 +80,7 @@ const getAllBlogs = async (req) => {
       },
       {
         $sort: {
-          likedByCount: -1,
-        },
-      },
-      {
-        $project: {
-          likedBy: 0,
+          likedCount: -1,
         },
       },
     ]);
