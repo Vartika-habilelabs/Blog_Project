@@ -107,4 +107,19 @@ const createBlog = async (req) => {
     throw err;
   }
 };
-export { getAllBlogs, createBlog };
+const updateBlog = async (req, res) => {
+  try {
+    const { body } = req;
+    const { id } = body;
+
+    delete body.id;
+    const savedBlog = await Blog.findOneAndUpdate(new ObjectId(id), body, {
+      new: true,
+    });
+    return { ...savedBlog.toJSON(), success: true };
+  } catch (err) {
+    console.log(err, "err in updating blog");
+    throw err;
+  }
+};
+export { getAllBlogs, createBlog, updateBlog };

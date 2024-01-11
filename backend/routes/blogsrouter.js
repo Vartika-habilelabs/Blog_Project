@@ -1,6 +1,6 @@
 import express from "express";
 import { handleResponse, verifyToken } from "../utils/index.js";
-import { getAllBlogs, createBlog } from "../controllers/index.js";
+import { getAllBlogs, createBlog, updateBlog } from "../controllers/index.js";
 const router = express.Router();
 router.get("/blogs", verifyToken, handleResponse.bind(this, getAllBlogs));
 router.post(
@@ -8,4 +8,5 @@ router.post(
   verifyToken,
   handleResponse.bind(this, createBlog)
 );
+router.put("/blogs", handleResponse.bind(this, updateBlog));
 export default router;

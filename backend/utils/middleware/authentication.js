@@ -13,7 +13,7 @@ export const verifyToken = (req, res, next) => {
   } else {
     jwt.verify(authorization, process.env.SECRET_KEY, async (err, payload) => {
       req.user = payload;
-      if (err) return res.status(422).send("logged in");
+      if (err) return res.status(422).send("Not authorised");
       next();
     });
   }
