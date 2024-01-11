@@ -4,7 +4,10 @@ import { Button } from "../button";
 import { Image } from "../image";
 import classes from "./blogCard.module.css";
 import { useDispatch } from "react-redux";
-import { saveBlogsToDb } from "../../store/reducer/blogSlice";
+import { userBlogs } from "../../store/reducer/blogSlice";
+import { apiCalling } from "../../utils";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 function getFormattedDate(dateString) {
   const inputDate = new Date(dateString);
 
@@ -17,15 +20,63 @@ function getFormattedDate(dateString) {
   const formattedDate = inputDate.toLocaleDateString("en-US", options);
   return formattedDate;
 }
+const showUpdatedData = (heading, dispatch) => {
+  heading === "Published"
+    ? dispatch(
+        userBlogs({
+          isPublished: true,
+        })
+      )
+    : heading === "Unpublished"
+    ? dispatch(
+        userBlogs({
+          isPublished: false,
+        })
+      )
+    : dispatch(
+        userBlogs({
+          isDeleted: true,
+        })
+      );
+};
 export const BlogCard = (props) => {
-  const { blog, action } = props;
+  const { blog, action, heading } = props;
   const { createdAt, createdBy, content } = blog;
   const [showDropdown, setShowDropdown] = useState(false);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const date = getFormattedDate(createdAt);
-  const handleClick = (type) => {
-    if (type === "publish") {
-    } else if (type === "Delete") {
+  const actionHandler = async (type) => {
+    try {
+      let payload = { id: blog._id };
+      if (type === "Publish") {
+        payload.isPublished = true;
+        const res = await apiCalling("put", "/blogs", payload);
+        if (res.success) toast.success("Published successfully");
+        console.log(res);
+      } else if (type === "Delete") {
+        payload.isDeleted = true;
+        payload.isPublished = false;
+        const res = await apiCalling("put", "/blogs", payload);
+        if (res.success) toast.success("Deleted successfully");
+        console.log(res);
+      } else if (type === "Unpublish") {
+        payload.isPublished = false;
+        const res = await apiCalling("put", "/blogs", payload);
+        if (res.success) toast.success("Unpublished successfully");
+        console.log(res);
+      } else if (type === "Restore") {
+        payload.isDeleted = false;
+        const res = await apiCalling("put", "/blogs", payload);
+        if (res.success) toast.success("Restored successfully");
+        console.log(res);
+      } else {
+        navigate(`/edit/${blog._id}`);
+      }
+      showUpdatedData(heading, dispatch);
+    } catch (error) {
+      console.log(error);
+      toast.error(error.message || "Something went wrong");
     }
   };
   return (
@@ -47,13 +98,16 @@ export const BlogCard = (props) => {
             <Image src={ThreeDots} />
             {showDropdown && (
               <div className={classes.dropdown}>
-                <p onClick={() => handleClick("publish")}>Publish</p>
-                <p onClick={() => handleClick("delete")}>Delete</p>
-                <p onClick={() => handleClick("edit")}>Edit</p>
+                {action.map((val, index) => (
+                  <p key={index} onClick={() => actionHandler(val)}>
+                    {val}
+                  </p>
+                ))}
               </div>
             )}
           </div>
         )}
+
         <Button className={classes["read-morebtn"]}>Read more</Button>
       </div>
     </div>

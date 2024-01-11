@@ -15,17 +15,20 @@ export const Blogs = (props) => {
       ? dispatch(
           userBlogs({
             isPublished: true,
+            isDeleted: false,
           })
         )
       : heading === "Unpublished"
       ? dispatch(
           userBlogs({
             isPublished: false,
+            isDeleted: false,
           })
         )
       : dispatch(
           userBlogs({
             isDeleted: true,
+            isPublished: false,
           })
         );
   }, [dispatch, heading]);
@@ -50,7 +53,14 @@ export const Blogs = (props) => {
               key={index}
               blog={blog}
               index={index}
-              action={heading === "Unpublished" ? true : false}
+              heading={heading}
+              action={
+                heading === "Unpublished"
+                  ? ["Publish", "Delete", "Edit"]
+                  : heading === "Published"
+                  ? ["Unpublish", "Delete"]
+                  : ["Restore"]
+              }
             />
           ))
         ) : (

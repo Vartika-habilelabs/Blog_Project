@@ -28,6 +28,10 @@ const router = createBrowserRouter([
         path: "/create",
         element: <CreateBlog />,
       },
+      {
+        path: "/edit/:id",
+        element: <CreateBlog />,
+      },
     ],
   },
 ]);
