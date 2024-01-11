@@ -60,10 +60,10 @@ const blogSlice = createSlice({
     });
     builder.addCase(userBlogs.rejected, (state, action) => {});
     builder.addCase(userBlogs.pending, (state, action) => {});
-    builder.addCase(saveBlogsToDb.fulfilled, (state, action) => {
-      const { payload } = action;
-      console.log(payload);
-    });
+    // builder.addCase(saveBlogsToDb.fulfilled, (state, action) => {
+    //   const { payload } = action;
+    //   console.log(payload);
+    // });
   },
 });
 export const blogReducer = blogSlice.reducer;
