@@ -67,16 +67,16 @@ const login = async (req) => {
       } else
         throw {
           status: statusCodes.CONFLICT,
-          message: statusMessages.USER_LOGIN_PASSWORD_FAILURE,
+          message: statusMessages.USER_INVALID_CREDENTIALS,
         };
     } else {
       throw {
         status: statusCodes.BAD_REQUEST,
-        message: statusMessages.USER_LOGIN_FAILURE,
+        message: statusMessages.USER_INVALID_CREDENTIALS,
       };
     }
   } catch (err) {
-    console.log(err, "error in login");
+    console.log(err, statusMessages.USER_LOGIN_FAILURE);
     throw err;
   }
 };

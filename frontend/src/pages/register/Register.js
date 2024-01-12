@@ -30,7 +30,6 @@ export const Register = ({ isLogin }) => {
     formState: { errors },
   } = form;
   const whenSubmitted = async (data) => {
-    console.log(isLogin);
     dispatch(isLogin ? login(data) : saveUsertodb(data));
   };
   return loading ? (

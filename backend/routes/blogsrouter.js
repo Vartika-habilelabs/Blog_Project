@@ -8,5 +8,5 @@ router.post(
   verifyToken,
   handleResponse.bind(this, createBlog)
 );
-router.put("/blogs", handleResponse.bind(this, updateBlog));
+router.put("/blogs", verifyToken, handleResponse.bind(this, updateBlog));
 export default router;

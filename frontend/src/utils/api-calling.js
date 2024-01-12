@@ -34,6 +34,7 @@ export const apiCalling = async (method, route, payload = {}, query = null) => {
       sessionStorage.setItem("authToken", data.token);
       delete data.token;
     }
+    data.success = true;
     return data;
   } catch (error) {
     throw error;

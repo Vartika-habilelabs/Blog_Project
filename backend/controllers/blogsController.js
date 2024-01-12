@@ -1,3 +1,4 @@
+import { statusMessages } from "../config/statusMessages.js";
 import { Blog } from "../models/index.js";
 import { ObjectId } from "mongodb";
 const getAllBlogs = async (req) => {
@@ -11,10 +12,7 @@ const getAllBlogs = async (req) => {
     if (JSON.parse(trending)) {
       const result = await Blog.aggregate([
         {
-          $match: {
-            isDeleted: false,
-            isPublished: true,
-          },
+          $match: { ...condition },
         },
         {
           $lookup: {
@@ -49,7 +47,7 @@ const getAllBlogs = async (req) => {
       return result;
     }
     const { _id } = req.user;
-    if (_id) condition.createdBy = new ObjectId(_id);
+    condition.createdBy = new ObjectId(_id);
     if (JSON.parse(isDeleted)) {
       condition.isDeleted = true;
     }
@@ -94,16 +92,20 @@ const createBlog = async (req) => {
   try {
     const { body, user } = req;
     const { _id } = user;
+    const { title, content, isPublished, isDeleted } = body;
     const newBlog = new Blog({
-      ...body,
+      title,
+      content,
+      isDeleted,
+      isPublished,
       createdBy: _id,
       createdAt: new Date(),
-      likedBy: [],
+      likedCount: 0,
     });
     await newBlog.save();
     return { ...newBlog.toJSON() };
   } catch (err) {
-    console.log(err, "err in saving blog");
+    console.log(err, statusMessages.BLOG_SAVE_FAILURE);
     throw err;
   }
 };
@@ -111,14 +113,20 @@ const updateBlog = async (req, res) => {
   try {
     const { body } = req;
     const { id } = body;
-
-    delete body.id;
-    const savedBlog = await Blog.findOneAndUpdate(new ObjectId(id), body, {
-      new: true,
-    });
-    return { ...savedBlog.toJSON(), success: true };
+    const { isDeleted, isPublished } = body;
+    const updatedFields = {};
+    if (isDeleted !== undefined) updatedFields.isDeleted = isDeleted;
+    if (isPublished !== undefined) updatedFields.isPublished = isPublished;
+    const savedBlog = await Blog.findOneAndUpdate(
+      new ObjectId(id),
+      updatedFields,
+      {
+        new: true,
+      }
+    );
+    return { ...savedBlog.toJSON() };
   } catch (err) {
-    console.log(err, "err in updating blog");
+    console.log(err, statusMessages.BLOG_UPDATE_FAILURE);
     throw err;
   }
 };

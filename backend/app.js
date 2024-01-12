@@ -12,21 +12,21 @@ const port = process.env.PORT;
 connectDB()
   .then(() => {
     console.log(statusMessages.MONGO_CONNECTED);
+    app.use(express.json());
+    const corsOptions = {
+      origin: "*",
+      credentials: true,
+      optionSuccessStatus: 200,
+    };
+
+    app.use(cors(corsOptions));
+    app.use(logger);
+    loadRoutes(app);
+
+    app.listen(port, () => {
+      console.log(`server is running on ${port}`);
+    });
   })
   .catch((err) => {
     console.log(err, statusMessages.MONGO_NOT_CONNECTED);
   });
-app.use(express.json());
-const corsOptions = {
-  origin: "*",
-  credentials: true,
-  optionSuccessStatus: 200,
-};
-
-app.use(cors(corsOptions));
-app.use(logger);
-loadRoutes(app);
-
-app.listen(port, () => {
-  console.log(`server is running on ${port}`);
-});

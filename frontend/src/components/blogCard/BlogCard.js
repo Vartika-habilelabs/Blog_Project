@@ -3,14 +3,13 @@ import { ThreeDots, vk } from "../../assets";
 import { Button } from "../button";
 import { Image } from "../image";
 import classes from "./blogCard.module.css";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { userBlogs } from "../../store/reducer/blogSlice";
 import { apiCalling } from "../../utils";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 function getFormattedDate(dateString) {
   const inputDate = new Date(dateString);
-
   const options = {
     year: "numeric",
     month: "long",
@@ -53,23 +52,19 @@ export const BlogCard = (props) => {
         payload.isPublished = true;
         const res = await apiCalling("put", "/blogs", payload);
         if (res.success) toast.success("Published successfully");
-        console.log(res);
       } else if (type === "Delete") {
         payload.isDeleted = true;
         payload.isPublished = false;
         const res = await apiCalling("put", "/blogs", payload);
         if (res.success) toast.success("Deleted successfully");
-        console.log(res);
       } else if (type === "Unpublish") {
         payload.isPublished = false;
         const res = await apiCalling("put", "/blogs", payload);
         if (res.success) toast.success("Unpublished successfully");
-        console.log(res);
       } else if (type === "Restore") {
         payload.isDeleted = false;
         const res = await apiCalling("put", "/blogs", payload);
         if (res.success) toast.success("Restored successfully");
-        console.log(res);
       } else {
         navigate(`/edit/${blog._id}`);
       }
