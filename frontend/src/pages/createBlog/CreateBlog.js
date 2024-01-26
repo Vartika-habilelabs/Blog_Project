@@ -5,7 +5,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { blogSchema } from "./validation";
 import { useDispatch, useSelector } from "react-redux";
 import { saveBlogsToDb } from "../../store/reducer/blogSlice";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 export const CreateBlog = () => {
@@ -15,6 +15,7 @@ export const CreateBlog = () => {
   const params = useParams();
   const { id } = params;
   const { blogs } = useSelector((state) => state.blogs);
+  const imageRef = useRef(null);
   const form = useForm({
     resolver: yupResolver(blogSchema),
     mode: "all",
@@ -43,10 +44,31 @@ export const CreateBlog = () => {
       content,
       isPublished: checked,
       isDeleted: false,
+      image: imageRef.current,
     };
     dispatch(
       saveBlogsToDb({ blogEntry, onSuccess: () => navigate("/profile") })
     );
+  };
+  const convertBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+      const fileReader = new FileReader();
+      fileReader.readAsDataURL(file);
+
+      fileReader.onload = () => {
+        resolve(fileReader.result);
+      };
+
+      fileReader.onerror = (error) => {
+        reject(error);
+      };
+    });
+  };
+  const encodeImageFileAsURL = async (e) => {
+    const file = e.target.files[0];
+    const base64 = await convertBase64(file);
+    console.log(base64);
+    imageRef.current = base64;
   };
   return (
     <FormProvider {...form}>
@@ -75,13 +97,16 @@ export const CreateBlog = () => {
           {!!errors.content && (
             <p className={classes["error-message"]}>{errors.content.message}</p>
           )}
-          <label className={classes.checkbox}>
-            <input
-              type="checkbox"
-              onChange={() => setChecked((prev) => !prev)}
-            ></input>
-            Publish
-          </label>
+          <div className={classes["file-upload"]}>
+            <label className={classes.checkbox}>
+              <input
+                type="checkbox"
+                onChange={() => setChecked((prev) => !prev)}
+              ></input>
+              Publish
+            </label>
+            <input id="image" type="file" onChange={encodeImageFileAsURL} />
+          </div>
           <div className={classes["button-container"]}>
             <Button type="submit" className={classes.button}>
               Save

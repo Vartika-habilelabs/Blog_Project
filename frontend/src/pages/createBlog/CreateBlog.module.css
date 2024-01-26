@@ -21,6 +21,10 @@
   gap: 1rem;
   color: var(--inputcolor);
 }
+.file-upload {
+  display: flex;
+  justify-content: space-between;
+}
 .input-container::placeholder {
   font-size: 2rem;
   color: var(--inputcolor);

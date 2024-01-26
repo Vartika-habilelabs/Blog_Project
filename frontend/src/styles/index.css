@@ -28,3 +28,7 @@ input[type="checkbox"] {
   width: 2rem;
   height: 2rem;
 }
+input[type="file"] {
+  width: fit-content;
+  border: none;
+}

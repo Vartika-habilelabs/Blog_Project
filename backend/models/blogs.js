@@ -27,7 +27,13 @@ const blogsSchema = new Schema({
       },
     ],
   },
-  likedCount: Number,
+  likedBy: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Users",
+      unique: true,
+    },
+  ],
   isPublished: {
     type: Boolean,
     required: [true, "Publish status is required"],
@@ -36,5 +42,12 @@ const blogsSchema = new Schema({
     type: Boolean,
     required: [true, "Delete status is required"],
   },
+  image: String,
 });
+
+blogsSchema.path("likedBy").validate(function (value) {
+  const uniqueIds = new Set(value.map((id) => id.toString()));
+  return uniqueIds.size === value.length;
+}, "LikedBy array must contain unique elements");
+
 export const Blog = mongoose.model("blogs", blogsSchema);

@@ -33,11 +33,19 @@ const getAllBlogs = async (req) => {
                 $divide: [{ $size: { $split: ["$content", " "] } }, 238],
               },
             },
+            likes: { $size: "$likedBy" },
+            isLiked: {
+              $cond: [
+                { $in: [ObjectId(req.user._id), "$likedBy"] },
+                true,
+                false,
+              ],
+            },
           },
         },
         {
           $sort: {
-            likedCount: -1,
+            likes: -1,
           },
         },
         {
@@ -92,7 +100,7 @@ const createBlog = async (req) => {
   try {
     const { body, user } = req;
     const { _id } = user;
-    const { title, content, isPublished, isDeleted } = body;
+    const { title, content, isPublished, isDeleted, image } = body;
     const newBlog = new Blog({
       title,
       content,
@@ -101,6 +109,7 @@ const createBlog = async (req) => {
       createdBy: _id,
       createdAt: new Date(),
       likedCount: 0,
+      image,
     });
     await newBlog.save();
     return { ...newBlog.toJSON() };
