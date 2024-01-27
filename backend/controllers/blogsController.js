@@ -139,4 +139,13 @@ const updateBlog = async (req, res) => {
     throw err;
   }
 };
-export { getAllBlogs, createBlog, updateBlog };
+
+export const toggleLike = async (req, res) => {
+  const { _id } = req.user;
+  const hasLiked = db.blogs.findOne({
+    _id: documentId,
+    $in: [_id, "$likedBy"],
+  });
+  console.log(hasLiked);
+};
+export { getAllBlogs, createBlog, updateBlog, toggleLike };

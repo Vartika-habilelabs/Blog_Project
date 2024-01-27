@@ -31,7 +31,6 @@ const blogsSchema = new Schema({
     {
       type: Schema.Types.ObjectId,
       ref: "Users",
-      unique: true,
     },
   ],
   isPublished: {
