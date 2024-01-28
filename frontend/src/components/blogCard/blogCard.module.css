@@ -1,25 +1,35 @@
 .blog-img {
   margin: 0 auto;
-  width: 100%;
+  width: 40%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
 }
 .blog-card {
   width: 100%;
-  max-width: 38rem;
   overflow: hidden;
   background-color: var(--blogCardBg);
   border-radius: 2rem;
   font-size: 1.5rem;
   display: flex;
-  flex-direction: column;
   gap: 1.4rem;
   box-shadow: 5px 5px 20px var(--shadow);
 }
-.content {
-  padding: 0 1rem;
-  height: 30%;
-  word-break: break-all;
+.blog-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-top: 2rem;
 }
-.user {
+.content {
+  word-break: break-all;
+  margin: 1rem 1rem;
+  flex: 1;
+  text-align: left;
+  font-size: 1.8rem;
+}
+.title-read {
   padding: 0 1rem;
   display: flex;
   justify-content: space-between;
@@ -29,7 +39,7 @@
   display: flex;
   gap: 1rem;
   text-align: right;
-  justify-content: flex-end;
+  justify-content: space-between;
 }
 .three-dots {
   position: relative;
@@ -42,6 +52,25 @@
   text-align: left;
   padding: 0.5rem;
 }
+/* .liked {
+  width: 3rem;
+} */
+.title {
+  font-size: 2.5rem;
+}
+.username {
+  font-size: 2rem;
+}
+.info {
+  display: flex;
+  gap: 1rem;
+  padding: 1rem 1rem 0.5rem;
+  align-items: center;
+  width: 6rem;
+}
+/* .read {
+  width: 3rem;
+} */
 .three-dots:hover {
 }
 .dropdown {
@@ -57,4 +86,9 @@
 .read-morebtn {
   width: fit-content;
   border: none;
+}
+@media (max-width: 900px) {
+  .blog-card {
+    flex-direction: column;
+  }
 }

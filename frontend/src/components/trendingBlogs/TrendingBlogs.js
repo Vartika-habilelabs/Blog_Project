@@ -4,6 +4,8 @@ import { BlogCard, Header, Loader } from "../../components";
 import { Trending } from "../../assets";
 import { useEffect } from "react";
 import { trendingBlogs } from "../../store/reducer/blogSlice";
+import "react-responsive-carousel/lib/styles/carousel.min.css";
+import { Carousel } from "react-responsive-carousel";
 export const TrendingBlogs = () => {
   const { blogs } = useSelector((state) => state.blogs);
   const { trending } = blogs;
@@ -15,7 +17,7 @@ export const TrendingBlogs = () => {
   return trending ? (
     <div className={`${classes["trending"]} wrapper`}>
       <Header imgsrc={Trending} content="Trending on Blogosphere" />
-      <div className={`${classes["blogs-container"]}`}>
+      <Carousel>
         {trending &&
           trending.map((blog, index) => (
             <div className={classes.blogs} key={index}>
@@ -25,7 +27,7 @@ export const TrendingBlogs = () => {
               <BlogCard blog={blog} index={index} />
             </div>
           ))}
-      </div>
+      </Carousel>
     </div>
   ) : (
     <Loader />

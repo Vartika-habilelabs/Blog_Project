@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ThreeDots, vk } from "../../assets";
+import { Liked, Read, ThreeDots, Unliked, vk } from "../../assets";
 import { Button } from "../button";
 import { Image } from "../image";
 import classes from "./blogCard.module.css";
@@ -40,7 +40,8 @@ const showUpdatedData = (heading, dispatch) => {
 };
 export const BlogCard = (props) => {
   const { blog, action, heading } = props;
-  const { createdAt, createdBy, content } = blog;
+  const { createdAt, createdBy, content, title, isLiked, likes, readTime } =
+    blog;
   const [showDropdown, setShowDropdown] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -76,34 +77,54 @@ export const BlogCard = (props) => {
   };
   return (
     <div className={classes["blog-card"]}>
-      <div className={classes["blog-img"]}>
-        <Image src={blog.img ? blog.img : vk} />
+      <div
+        className={classes["blog-img"]}
+        style={{
+          backgroundImage: `url(${blog.img ? blog.img : vk})`,
+        }}
+      >
+        {/* <Image src={blog.img ? blog.img : vk} /> */}
       </div>
-      <div className={classes.user}>
-        <div className={classes["created-at"]}>{date}</div>
-        <div>~{createdBy.username}</div>
-      </div>
-      <div className={classes.content}>{content.substring(0, 100)} ...</div>
-      <div className={classes.btnContainer}>
-        {action && (
-          <div
-            onClick={() => setShowDropdown((prev) => !prev)}
-            className={classes["three-dots"]}
-          >
-            <Image src={ThreeDots} />
-            {showDropdown && (
-              <div className={classes.dropdown}>
-                {action.map((val, index) => (
-                  <p key={index} onClick={() => actionHandler(val)}>
-                    {val}
-                  </p>
-                ))}
+      <div className={classes["blog-content"]}>
+        <div className={classes["title-read"]}>
+          <h4 className={classes["title"]}>
+            {title.length > 100 ? `${title.substring(0, 50)} ...` : title}
+          </h4>
+          <p className={classes.username}>~{createdBy.username}</p>
+        </div>
+        <p className={classes.content}>{content.substring(0, 350)} ...</p>
+        <div className={classes.btnContainer}>
+          <div className={classes.info}>
+            <Image
+              className={classes.liked}
+              src={isLiked ? Liked : Unliked}
+            ></Image>
+            <p>
+              {likes > 1000 ? (Math.abs(likes) / 1000).toFixed(1) + "k" : likes}
+            </p>
+            <Image className={classes.read} src={Read}></Image>
+            <p>{readTime}min</p>
+            {action && (
+              <div
+                onClick={() => setShowDropdown((prev) => !prev)}
+                className={classes["three-dots"]}
+              >
+                <Image src={ThreeDots} />
+                {showDropdown && (
+                  <div className={classes.dropdown}>
+                    {action.map((val, index) => (
+                      <p key={index} onClick={() => actionHandler(val)}>
+                        {val}
+                      </p>
+                    ))}
+                  </div>
+                )}
               </div>
             )}
           </div>
-        )}
 
-        <Button className={classes["read-morebtn"]}>Read more</Button>
+          <Button className={classes["read-morebtn"]}>Read more</Button>
+        </div>
       </div>
     </div>
   );

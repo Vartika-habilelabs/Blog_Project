@@ -1,2 +1,7 @@
 export { login, signup } from "./userController.js";
-export { getAllBlogs, createBlog, updateBlog } from "./blogsController.js";
+export {
+  getAllBlogs,
+  createBlog,
+  updateBlog,
+  toggleLike,
+} from "./blogsController.js";

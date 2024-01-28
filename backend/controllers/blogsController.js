@@ -1,3 +1,4 @@
+import { statusCodes } from "../config/statusCodes.js";
 import { statusMessages } from "../config/statusMessages.js";
 import { Blog } from "../models/index.js";
 import { ObjectId } from "mongodb";
@@ -36,7 +37,7 @@ const getAllBlogs = async (req) => {
             likes: { $size: "$likedBy" },
             isLiked: {
               $cond: [
-                { $in: [ObjectId(req.user._id), "$likedBy"] },
+                { $in: [new ObjectId(req.user._id), "$likedBy"] },
                 true,
                 false,
               ],
@@ -140,12 +141,30 @@ const updateBlog = async (req, res) => {
   }
 };
 
-export const toggleLike = async (req, res) => {
-  const { _id } = req.user;
-  const hasLiked = db.blogs.findOne({
-    _id: documentId,
-    $in: [_id, "$likedBy"],
-  });
-  console.log(hasLiked);
+const toggleLike = async (req, res) => {
+  try {
+    const { _id } = req.user;
+    const { blogId } = req.params;
+    const { likedBy } = await Blog.findOne(
+      {
+        _id: blogId,
+      },
+      { likedBy: 1 }
+    );
+    if (!likedBy)
+      throw {
+        status: statusCodes.INTERNAL_SERVER_ERROR,
+        message: statusMessages.SERVER_ERROR,
+      };
+    let updatedLikedBy = [];
+    if (likedBy.includes(_id)) {
+      updatedLikedBy = likedBy.filter((userId) => userId != _id);
+    } else {
+      updatedLikedBy = [...likedBy, _id];
+    }
+    await Blog.findOneAndUpdate({ _id: blogId }, { likedBy: updatedLikedBy });
+  } catch (error) {
+    console.log(error);
+  }
 };
 export { getAllBlogs, createBlog, updateBlog, toggleLike };
