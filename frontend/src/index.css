@@ -27,22 +27,21 @@ body {
   font-size: 1.5rem;
   font-weight: 600;
 }
-/* .carousel.carousel-slider {
-  overflow: visible;
+.carousel.carousel-slider {
+  overflow: visible !important;
 }
 .carousel .control-dots {
   top: 100%;
   bottom: 0;
-} */
-
-.carousel .slider-wrapper {
-  height: 40rem;
 }
 .carousel .slide img {
   width: 4rem;
 }
+.carousel .slider-wrapper.axis-horizontal .slider .slide {
+  padding: 2rem 1rem;
+}
 .carousel .control-dots .dot {
-  background: var(--maincolor);
+  background: var(--maincolor) !important;
 }
 @media (max-width: 900px) {
   .carousel .slider-wrapper {

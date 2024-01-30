@@ -23,7 +23,6 @@ const getAllBlogs = async (req) => {
             as: "createdBy",
           },
         },
-
         {
           $unwind: "$createdBy",
         },
@@ -32,6 +31,20 @@ const getAllBlogs = async (req) => {
             readTime: {
               $ceil: {
                 $divide: [{ $size: { $split: ["$content", " "] } }, 238],
+              },
+            },
+            content: {
+              $cond: {
+                if: { $gt: [{ $strLenCP: "$content" }, 250] },
+                then: { $concat: [{ $substrCP: ["$content", 0, 250] }, "..."] },
+                else: "$content",
+              },
+            },
+            title: {
+              $cond: {
+                if: { $gt: [{ $strLenCP: "$title" }, 100] },
+                then: { $concat: [{ $substrCP: ["$title", 0, 100] }, "..."] },
+                else: "$title",
               },
             },
             likes: { $size: "$likedBy" },
@@ -81,6 +94,20 @@ const getAllBlogs = async (req) => {
           readTime: {
             $ceil: {
               $divide: [{ $size: { $split: ["$content", " "] } }, 238],
+            },
+          },
+          content: {
+            $cond: {
+              if: { $gt: [{ $strLenCP: "$content" }, 250] },
+              then: { $concat: [{ $substrCP: ["$content", 0, 250] }, "..."] },
+              else: "$content",
+            },
+          },
+          title: {
+            $cond: {
+              if: { $gt: [{ $strLenCP: "$title" }, 100] },
+              then: { $concat: [{ $substrCP: ["$title", 0, 100] }, "..."] },
+              else: "$title",
             },
           },
         },

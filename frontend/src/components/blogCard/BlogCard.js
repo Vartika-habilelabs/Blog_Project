@@ -87,23 +87,32 @@ export const BlogCard = (props) => {
       </div>
       <div className={classes["blog-content"]}>
         <div className={classes["title-read"]}>
-          <h4 className={classes["title"]}>
-            {title.length > 100 ? `${title.substring(0, 50)} ...` : title}
-          </h4>
+          <h4 className={classes["title"]}>{title}</h4>
           <p className={classes.username}>~{createdBy.username}</p>
         </div>
-        <p className={classes.content}>{content.substring(0, 350)} ...</p>
+        <p
+          style={{ textAlign: "left", padding: "0 1rem", marginTop: "0.5rem" }}
+        >
+          {getFormattedDate(createdAt)}
+        </p>
+        <p className={classes.content}>{content}</p>
         <div className={classes.btnContainer}>
           <div className={classes.info}>
-            <Image
-              className={classes.liked}
-              src={isLiked ? Liked : Unliked}
-            ></Image>
-            <p>
-              {likes > 1000 ? (Math.abs(likes) / 1000).toFixed(1) + "k" : likes}
-            </p>
-            <Image className={classes.read} src={Read}></Image>
-            <p>{readTime}min</p>
+            <button className={classes["btn"]}>
+              <Image
+                className={classes["info-img"]}
+                src={isLiked ? Liked : Unliked}
+              ></Image>
+              <p>
+                {likes > 1000
+                  ? (Math.abs(likes) / 1000).toFixed(1) + "k"
+                  : likes}
+              </p>
+            </button>
+            <button className={classes["btn"]}>
+              <Image className={classes["info-img"]} src={Read}></Image>
+              <p>{readTime}min</p>
+            </button>
             {action && (
               <div
                 onClick={() => setShowDropdown((prev) => !prev)}
