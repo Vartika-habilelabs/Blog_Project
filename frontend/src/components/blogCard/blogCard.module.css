@@ -18,6 +18,11 @@
 }
 .column {
   flex-direction: column;
+  width: 100%;
+}
+.column .blog-img {
+  height: 25rem;
+  width: 100%;
 }
 .blog-content {
   flex: 1;
@@ -98,10 +103,18 @@
 @media (max-width: 869px) {
   .blog-card {
     flex-direction: column;
+    flex: 1;
+  }
+  .blog-img {
+    height: 25rem;
+    width: 100%;
   }
 }
 @media (min-width: 870px) {
-  .three-dots {
+  /* .three-dots {
     display: none;
+  } */
+  .column {
+    max-width: 35rem;
   }
 }

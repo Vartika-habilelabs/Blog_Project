@@ -35,6 +35,6 @@
     flex-direction: column;
     margin-bottom: 1.5rem;
     align-items: flex-start;
-    height: 45rem;
+    /* height: 45rem; */
   }
 }

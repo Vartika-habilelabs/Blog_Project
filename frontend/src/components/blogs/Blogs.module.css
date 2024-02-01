@@ -21,3 +21,8 @@
   font-size: 5rem;
   color: var(--lightTextColor);
 }
+@media (max-width: 869px) {
+  .blogs-container {
+    flex-direction: column;
+  }
+}

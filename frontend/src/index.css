@@ -43,8 +43,7 @@ body {
 .carousel .control-dots .dot {
   background: var(--maincolor) !important;
 }
-@media (max-width: 900px) {
+/* @media (max-width: 900px) {
   .carousel .slider-wrapper {
-    height: 45rem;
   }
-}
+} */
