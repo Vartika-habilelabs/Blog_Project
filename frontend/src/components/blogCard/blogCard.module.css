@@ -14,6 +14,10 @@
   display: flex;
   gap: 1.4rem;
   box-shadow: 0px 5px 7px var(--shadow);
+  color: var(--maincolor);
+}
+.column {
+  flex-direction: column;
 }
 .blog-content {
   flex: 1;
@@ -68,7 +72,7 @@
   position: absolute;
   bottom: 0;
   right: 80%;
-  background-color: var(--mainColor);
+  background-color: var(--maincolor);
   color: var(--whiteBg);
   padding: 1rem;
   background-color: var(--shadow);
@@ -77,6 +81,9 @@
 .read-morebtn {
   width: fit-content;
   border: none;
+}
+.info .btn p {
+  color: var(--maincolor);
 }
 .info .btn {
   display: flex;
@@ -88,8 +95,13 @@
 .info .btn .info-img {
   width: 3rem;
 }
-@media (max-width: 900px) {
+@media (max-width: 869px) {
   .blog-card {
     flex-direction: column;
+  }
+}
+@media (min-width: 870px) {
+  .three-dots {
+    display: none;
   }
 }

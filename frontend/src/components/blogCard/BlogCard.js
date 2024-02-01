@@ -45,7 +45,6 @@ export const BlogCard = (props) => {
   const [showDropdown, setShowDropdown] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const date = getFormattedDate(createdAt);
   const actionHandler = async (type) => {
     try {
       let payload = { id: blog._id };
@@ -76,7 +75,9 @@ export const BlogCard = (props) => {
     }
   };
   return (
-    <div className={classes["blog-card"]}>
+    <div
+      className={`${classes["blog-card"]} ${action ? classes["column"] : null}`}
+    >
       <div
         className={classes["blog-img"]}
         style={{
