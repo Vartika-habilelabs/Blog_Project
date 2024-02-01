@@ -98,15 +98,15 @@ const getAllBlogs = async (req) => {
           },
           content: {
             $cond: {
-              if: { $gt: [{ $strLenCP: "$content" }, 250] },
-              then: { $concat: [{ $substrCP: ["$content", 0, 250] }, "..."] },
+              if: { $gt: [{ $strLenCP: "$content" }, 200] },
+              then: { $concat: [{ $substrCP: ["$content", 0, 200] }, "..."] },
               else: "$content",
             },
           },
           title: {
             $cond: {
-              if: { $gt: [{ $strLenCP: "$title" }, 100] },
-              then: { $concat: [{ $substrCP: ["$title", 0, 100] }, "..."] },
+              if: { $gt: [{ $strLenCP: "$title" }, 15] },
+              then: { $concat: [{ $substrCP: ["$title", 0, 15] }, "..."] },
               else: "$title",
             },
           },
