@@ -1,6 +1,6 @@
 import classes from "./TrendingBlogs.module.css";
 import { useDispatch, useSelector } from "react-redux";
-import { AllBlogs, AllTags, BlogCard, Header, Loader } from "../../components";
+import { AllBlogs, BlogCard, Header, Loader } from "../../components";
 import { Trending } from "../../assets";
 import { useEffect } from "react";
 import { trendingBlogs } from "../../store/reducer/blogSlice";

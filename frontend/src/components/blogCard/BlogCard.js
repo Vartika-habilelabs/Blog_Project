@@ -49,10 +49,7 @@ export const BlogCard = (props) => {
     console.log("clicked");
     try {
       const res = await apiCalling("put", `/blogs/toggleLike/${blog._id}`);
-      if (res.success)
-        dispatch(
-          toggleLike({ blogId: blog._id, isTrending: action ? false : true })
-        );
+      if (res.success) dispatch(toggleLike({ blogId: blog._id }));
     } catch (error) {
       console.log("err", error.message);
     }

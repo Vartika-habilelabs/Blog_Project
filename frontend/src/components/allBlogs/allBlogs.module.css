@@ -1,0 +1,20 @@
+.parent-container {
+  display: flex;
+  gap: 2rem;
+  padding: 2rem;
+}
+.allblogs {
+  display: flex;
+  gap: 2rem;
+  flex: 0.7;
+  flex-direction: column;
+}
+.handle-btns {
+  display: flex;
+  justify-content: space-between;
+}
+.handle-btns button {
+  background: none;
+  border: none;
+  font-size: 2rem;
+}

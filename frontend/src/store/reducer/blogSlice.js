@@ -28,9 +28,8 @@ export const getAllBlogs = createAsyncThunk(
   "Blogs/allBlogs",
   async (object, { rejectWithValue }) => {
     try {
-      console.log(object);
       const res = await apiCalling("get", "/blogs", {}, object);
-      console.log(res);
+      return res;
     } catch (error) {
       rejectWithValue(error);
     }
@@ -63,19 +62,20 @@ const blogSlice = createSlice({
     },
   },
   reducers: {
-    toggleLike: (state, { payload: { blogId, isTrending } }) => {
-      const key = isTrending ? "trending" : "userBlog";
-      state.blogs[key] = state.blogs[key].map((blog) => {
-        if (blog._id === blogId) {
-          return {
-            ...blog,
-            isLiked: !blog.isLiked,
-            likes: blog.isLiked ? blog.likes - 1 : blog.likes + 1,
-          };
-        } else {
-          return blog;
-        }
-      });
+    toggleLike: (state, { payload: { blogId } }) => {
+      for (let type in state.blogs) {
+        state.blogs[type] = state.blogs[type].map((blog) => {
+          if (blog._id === blogId) {
+            return {
+              ...blog,
+              isLiked: !blog.isLiked,
+              likes: blog.isLiked ? blog.likes - 1 : blog.likes + 1,
+            };
+          } else {
+            return blog;
+          }
+        });
+      }
     },
   },
   extraReducers: (builder) => {

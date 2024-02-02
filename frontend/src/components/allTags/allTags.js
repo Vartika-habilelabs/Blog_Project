@@ -13,13 +13,13 @@ export const AllTags = () => {
     dispatch(allTags());
   }, [dispatch]);
   return tags ? (
-    <>
-      <h2>Discover more of what matters to you</h2>
-      <div>
+    <div className={classes["tags-container"]}>
+      <h2 className={classes.heading}>Discover more of what matters to you</h2>
+      <div className={classes["tags"]}>
         {tags.map((tag) => (
           <Button className={classes["tag-btn"]}>{TitleCase(tag.tag)}</Button>
         ))}
       </div>
-    </>
+    </div>
   ) : null;
 };

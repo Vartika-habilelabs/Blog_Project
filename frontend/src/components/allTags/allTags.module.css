@@ -4,4 +4,23 @@
   color: var(--blackText);
   font-size: 1.2rem;
   border-radius: 10rem;
+  font-size: 1.5rem;
+  font-weight: 500;
+}
+.tags-container {
+  position: sticky;
+  top: 200px;
+  display: flex;
+  flex-direction: column;
+  flex: 0.3;
+  gap: 2rem;
+}
+.heading {
+  font-size: 2rem;
+  color: var(--maincolor);
+}
+.tags {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
 }

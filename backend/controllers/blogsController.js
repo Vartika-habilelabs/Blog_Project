@@ -2,7 +2,13 @@ import { statusCodes } from "../config/statusCodes.js";
 import { statusMessages } from "../config/statusMessages.js";
 import { Blog } from "../models/index.js";
 import { ObjectId } from "mongodb";
-
+const parsedQuery = (query) => {
+  let parsed = {};
+  for (let key in query) {
+    parsed[key] = JSON.parse(query[key]);
+  }
+  return parsed;
+};
 const addFields = (titleLength, contentLength, userID) => ({
   readTime: {
     $ceil: {
@@ -31,6 +37,7 @@ const addFields = (titleLength, contentLength, userID) => ({
 
 const getAllBlogs = async (req) => {
   try {
+    const query = parsedQuery(req.query);
     const {
       trending = false,
       isDeleted = false,
@@ -38,10 +45,9 @@ const getAllBlogs = async (req) => {
       pageSize,
       pageIndex,
       allBlogs = false,
-    } = JSON.parse(req.query);
-    console.log(typeof pageSize);
+    } = query;
     const condition = { isDeleted: false, isPublished: true };
-    if (JSON.parse(trending)) {
+    if (trending) {
       const result = await Blog.aggregate([
         {
           $match: { ...condition },
@@ -71,14 +77,14 @@ const getAllBlogs = async (req) => {
       ]);
       return result;
     }
-    if (!JSON.parse(allBlogs)) {
+    if (!allBlogs) {
       const { _id } = req.user;
       condition.createdBy = new ObjectId(_id);
     }
-    if (JSON.parse(isDeleted)) {
+    if (isDeleted) {
       condition.isDeleted = true;
     }
-    if (!JSON.parse(isPublished)) condition.isPublished = false;
+    if (!isPublished) condition.isPublished = false;
     const res = await Blog.aggregate([
       {
         $match: { ...condition },
@@ -106,6 +112,7 @@ const getAllBlogs = async (req) => {
     ]);
     return res;
   } catch (error) {
+    console.log(error);
     throw error;
   }
 };
