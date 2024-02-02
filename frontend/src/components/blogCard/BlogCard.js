@@ -4,7 +4,7 @@ import { Button } from "../button";
 import { Image } from "../image";
 import classes from "./blogCard.module.css";
 import { useDispatch, useSelector } from "react-redux";
-import { trendingBlogs, userBlogs } from "../../store/reducer/blogSlice";
+import { toggleLike, userBlogs } from "../../store/reducer/blogSlice";
 import { apiCalling } from "../../utils";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
@@ -49,7 +49,8 @@ export const BlogCard = (props) => {
     console.log("clicked");
     try {
       const res = await apiCalling("put", `/blogs/toggleLike/${blog._id}`);
-      if (res.success) dispatch(trendingBlogs());
+      if (res.success)
+        dispatch(toggleLike({ blogId: blog._id, isTrending: true }));
     } catch (error) {
       console.log("err", error.message);
     }
