@@ -24,6 +24,18 @@ export const userBlogs = createAsyncThunk(
     }
   }
 );
+export const getAllBlogs = createAsyncThunk(
+  "Blogs/allBlogs",
+  async (object, { rejectWithValue }) => {
+    try {
+      console.log(object);
+      const res = await apiCalling("get", "/blogs", {}, object);
+      console.log(res);
+    } catch (error) {
+      rejectWithValue(error);
+    }
+  }
+);
 export const saveBlogsToDb = createAsyncThunk(
   "Blogs/saveBlogsToDb",
   async (object, { rejectWithValue }) => {
@@ -47,43 +59,35 @@ const blogSlice = createSlice({
     blogs: {
       trending: [],
       userBlog: [],
+      allBlogs: [],
     },
   },
   reducers: {
     toggleLike: (state, { payload: { blogId, isTrending } }) => {
-      // const { isTrending } = payload;
-      if (isTrending) {
-        state.blogs.trending = state.blogs.trending.map((blog) => {
-          if (blog._id === blogId) {
-            return {
-              ...blog,
-              isLiked: !blog.isLiked,
-              likes: blog.isLiked ? blog.likes - 1 : blog.likes + 1,
-            };
-          } else {
-            return blog;
-          }
-        });
-      }
+      const key = isTrending ? "trending" : "userBlog";
+      state.blogs[key] = state.blogs[key].map((blog) => {
+        if (blog._id === blogId) {
+          return {
+            ...blog,
+            isLiked: !blog.isLiked,
+            likes: blog.isLiked ? blog.likes - 1 : blog.likes + 1,
+          };
+        } else {
+          return blog;
+        }
+      });
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(trendingBlogs.fulfilled, (state, action) => {
-      const { payload } = action;
+    builder.addCase(trendingBlogs.fulfilled, (state, { payload }) => {
       state.blogs.trending = payload;
     });
-    builder.addCase(trendingBlogs.rejected, (state, action) => {});
-    builder.addCase(trendingBlogs.pending, (state, action) => {});
-    builder.addCase(userBlogs.fulfilled, (state, action) => {
-      const { payload } = action;
+    builder.addCase(userBlogs.fulfilled, (state, { payload }) => {
       state.blogs.userBlog = payload;
     });
-    builder.addCase(userBlogs.rejected, (state, action) => {});
-    builder.addCase(userBlogs.pending, (state, action) => {});
-    // builder.addCase(saveBlogsToDb.fulfilled, (state, action) => {
-    //   const { payload } = action;
-    //   console.log(payload);
-    // });
+    builder.addCase(getAllBlogs.fulfilled, (state, { payload }) => {
+      state.blogs.allBlogs = payload;
+    });
   },
 });
 export const { toggleLike } = blogSlice.actions;

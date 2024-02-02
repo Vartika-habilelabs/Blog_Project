@@ -96,6 +96,7 @@
   gap: 0.5rem;
   background-color: transparent;
   border: none;
+  cursor: pointer;
 }
 .info .btn .info-img {
   width: 3rem;

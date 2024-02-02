@@ -5,3 +5,4 @@ export {
   updateBlog,
   toggleLike,
 } from "./blogsController.js";
+export * from "./tagsController.js";

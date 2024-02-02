@@ -1,0 +1,7 @@
+.tag-btn {
+  background-color: var(--tagsBtnBg);
+  border: none;
+  color: var(--blackText);
+  font-size: 1.2rem;
+  border-radius: 10rem;
+}

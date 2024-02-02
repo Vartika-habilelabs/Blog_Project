@@ -2,13 +2,44 @@ import { statusCodes } from "../config/statusCodes.js";
 import { statusMessages } from "../config/statusMessages.js";
 import { Blog } from "../models/index.js";
 import { ObjectId } from "mongodb";
+
+const addFields = (titleLength, contentLength, userID) => ({
+  readTime: {
+    $ceil: {
+      $divide: [{ $size: { $split: ["$content", " "] } }, 238],
+    },
+  },
+  content: {
+    $cond: {
+      if: { $gt: [{ $strLenCP: "$content" }, contentLength] },
+      then: { $concat: [{ $substrCP: ["$content", 0, contentLength] }, "..."] },
+      else: "$content",
+    },
+  },
+  title: {
+    $cond: {
+      if: { $gt: [{ $strLenCP: "$title" }, titleLength] },
+      then: { $concat: [{ $substrCP: ["$title", 0, titleLength] }, "..."] },
+      else: "$title",
+    },
+  },
+  likes: { $size: "$likedBy" },
+  isLiked: {
+    $cond: [{ $in: [new ObjectId(userID), "$likedBy"] }, true, false],
+  },
+});
+
 const getAllBlogs = async (req) => {
   try {
     const {
       trending = false,
       isDeleted = false,
       isPublished = true,
-    } = req.query;
+      pageSize,
+      pageIndex,
+      allBlogs = false,
+    } = JSON.parse(req.query);
+    console.log(typeof pageSize);
     const condition = { isDeleted: false, isPublished: true };
     if (JSON.parse(trending)) {
       const result = await Blog.aggregate([
@@ -27,35 +58,7 @@ const getAllBlogs = async (req) => {
           $unwind: "$createdBy",
         },
         {
-          $addFields: {
-            readTime: {
-              $ceil: {
-                $divide: [{ $size: { $split: ["$content", " "] } }, 238],
-              },
-            },
-            content: {
-              $cond: {
-                if: { $gt: [{ $strLenCP: "$content" }, 250] },
-                then: { $concat: [{ $substrCP: ["$content", 0, 250] }, "..."] },
-                else: "$content",
-              },
-            },
-            title: {
-              $cond: {
-                if: { $gt: [{ $strLenCP: "$title" }, 100] },
-                then: { $concat: [{ $substrCP: ["$title", 0, 100] }, "..."] },
-                else: "$title",
-              },
-            },
-            likes: { $size: "$likedBy" },
-            isLiked: {
-              $cond: [
-                { $in: [new ObjectId(req.user._id), "$likedBy"] },
-                true,
-                false,
-              ],
-            },
-          },
+          $addFields: addFields(100, 250, req.user._id),
         },
         {
           $sort: {
@@ -68,8 +71,10 @@ const getAllBlogs = async (req) => {
       ]);
       return result;
     }
-    const { _id } = req.user;
-    condition.createdBy = new ObjectId(_id);
+    if (!JSON.parse(allBlogs)) {
+      const { _id } = req.user;
+      condition.createdBy = new ObjectId(_id);
+    }
     if (JSON.parse(isDeleted)) {
       condition.isDeleted = true;
     }
@@ -90,32 +95,13 @@ const getAllBlogs = async (req) => {
         $unwind: "$createdBy",
       },
       {
-        $addFields: {
-          readTime: {
-            $ceil: {
-              $divide: [{ $size: { $split: ["$content", " "] } }, 238],
-            },
-          },
-          content: {
-            $cond: {
-              if: { $gt: [{ $strLenCP: "$content" }, 200] },
-              then: { $concat: [{ $substrCP: ["$content", 0, 200] }, "..."] },
-              else: "$content",
-            },
-          },
-          title: {
-            $cond: {
-              if: { $gt: [{ $strLenCP: "$title" }, 15] },
-              then: { $concat: [{ $substrCP: ["$title", 0, 15] }, "..."] },
-              else: "$title",
-            },
-          },
-        },
+        $addFields: addFields(15, 200, req.user._id),
       },
       {
-        $sort: {
-          likedCount: -1,
-        },
+        $skip: (pageIndex - 1) * pageSize,
+      },
+      {
+        $limit: pageSize,
       },
     ]);
     return res;

@@ -8,22 +8,7 @@ const queryGenerator = (queryObj) => {
   query = query.slice(0, -1);
   return query;
 };
-// const paramsGenerator = (params) => {
-//   let paramsString = "";
-//   for (let key in params) {
-//     paramsString += `/${params[key]}`;
-//   }
-//   console.log(params);
-// };
-export const apiCalling = async (
-  method,
-  route,
-  payload = {},
-  query = null
-  // params = null
-) => {
-  // ${params ? paramsGenerator(params) : ""}
-  // paramsGenerator(params);
+export const apiCalling = async (method, route, payload = {}, query = null) => {
   try {
     const URL = `${Constants.BASE_URL}${route}${
       query ? queryGenerator(query) : ""

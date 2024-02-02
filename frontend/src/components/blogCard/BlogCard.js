@@ -3,7 +3,7 @@ import { Liked, Read, ThreeDots, Unliked, vk } from "../../assets";
 import { Button } from "../button";
 import { Image } from "../image";
 import classes from "./blogCard.module.css";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { toggleLike, userBlogs } from "../../store/reducer/blogSlice";
 import { apiCalling } from "../../utils";
 import { toast } from "react-toastify";
@@ -50,7 +50,9 @@ export const BlogCard = (props) => {
     try {
       const res = await apiCalling("put", `/blogs/toggleLike/${blog._id}`);
       if (res.success)
-        dispatch(toggleLike({ blogId: blog._id, isTrending: true }));
+        dispatch(
+          toggleLike({ blogId: blog._id, isTrending: action ? false : true })
+        );
     } catch (error) {
       console.log("err", error.message);
     }

@@ -9,3 +9,5 @@ export { Blogs } from "./blogs";
 export { NotFound } from "./notFound";
 export { Image } from "./image";
 export { Popper } from "./popper";
+export { AllBlogs } from "./allBlogs";
+export { AllTags } from "./allTags";
