@@ -174,7 +174,7 @@ const toggleLike = async (req, res) => {
     const { blogId } = req.params;
     const { likedBy } = await Blog.findOne(
       {
-        _id: blogId,
+        _id: new ObjectId(blogId),
       },
       { likedBy: 1 }
     );
@@ -189,9 +189,14 @@ const toggleLike = async (req, res) => {
     } else {
       updatedLikedBy = [...likedBy, _id];
     }
-    await Blog.findOneAndUpdate({ _id: blogId }, { likedBy: updatedLikedBy });
+    const updatedBlog = await Blog.findOneAndUpdate(
+      { _id: new ObjectId(blogId) },
+      { likedBy: updatedLikedBy }
+    );
+    return { ...updatedBlog.toJSON() };
   } catch (error) {
     console.log(error);
+    throw error;
   }
 };
 export { getAllBlogs, createBlog, updateBlog, toggleLike };

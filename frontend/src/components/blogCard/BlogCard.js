@@ -4,7 +4,7 @@ import { Button } from "../button";
 import { Image } from "../image";
 import classes from "./blogCard.module.css";
 import { useDispatch, useSelector } from "react-redux";
-import { userBlogs } from "../../store/reducer/blogSlice";
+import { trendingBlogs, userBlogs } from "../../store/reducer/blogSlice";
 import { apiCalling } from "../../utils";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
@@ -45,6 +45,16 @@ export const BlogCard = (props) => {
   const [showDropdown, setShowDropdown] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const handleLikeClick = async () => {
+    console.log("clicked");
+    try {
+      const res = await apiCalling("put", `/blogs/toggleLike/${blog._id}`);
+      if (res.success) dispatch(trendingBlogs());
+    } catch (error) {
+      console.log("err", error.message);
+    }
+  };
+
   const actionHandler = async (type) => {
     try {
       let payload = { id: blog._id };
@@ -83,9 +93,7 @@ export const BlogCard = (props) => {
         style={{
           backgroundImage: `url(${blog.img ? blog.img : vk})`,
         }}
-      >
-        {/* <Image src={blog.img ? blog.img : vk} /> */}
-      </div>
+      ></div>
       <div className={classes["blog-content"]}>
         <div className={classes["title-read"]}>
           <h4 className={classes["title"]}>{title}</h4>
@@ -99,7 +107,7 @@ export const BlogCard = (props) => {
         <p className={classes.content}>{content}</p>
         <div className={classes.btnContainer}>
           <div className={classes.info}>
-            <button className={classes["btn"]}>
+            <button className={classes["btn"]} onClick={handleLikeClick}>
               <Image
                 className={classes["info-img"]}
                 src={isLiked ? Liked : Unliked}
