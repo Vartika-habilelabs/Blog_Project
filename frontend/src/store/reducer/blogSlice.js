@@ -55,16 +55,14 @@ export const saveBlogsToDb = createAsyncThunk(
 const blogSlice = createSlice({
   name: "Blogs",
   initialState: {
-    blogs: {
-      trending: [],
-      userBlog: [],
-      allBlogs: [],
-    },
+    trending: [],
+    blogs: [],
+    blogCount: 0,
   },
   reducers: {
     toggleLike: (state, { payload: { blogId } }) => {
-      for (let type in state.blogs) {
-        state.blogs[type] = state.blogs[type].map((blog) => {
+      ["blogs", "trending"].forEach((key) => {
+        state[key] = state[key].map((blog) => {
           if (blog._id === blogId) {
             return {
               ...blog,
@@ -75,19 +73,19 @@ const blogSlice = createSlice({
             return blog;
           }
         });
-      }
+      });
     },
   },
   extraReducers: (builder) => {
     builder.addCase(trendingBlogs.fulfilled, (state, { payload }) => {
-      state.blogs.trending = payload;
+      state.trending = payload;
     });
     builder.addCase(userBlogs.fulfilled, (state, { payload }) => {
-      state.blogs.userBlog = payload;
+      state.blogs = payload;
     });
     builder.addCase(getAllBlogs.fulfilled, (state, { payload }) => {
-      console.log(payload);
-      state.blogs.allBlogs = payload;
+      state.blogs = payload.res || [];
+      state.blogCount = payload.totalcount || 0;
     });
   },
 });

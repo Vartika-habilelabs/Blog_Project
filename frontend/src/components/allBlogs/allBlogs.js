@@ -4,11 +4,11 @@ import { getAllBlogs } from "../../store/reducer/blogSlice";
 import { BlogCard } from "../blogCard";
 import classes from "./allBlogs.module.css";
 import { AllTags } from "../allTags";
+
 export const AllBlogs = () => {
   const dispatch = useDispatch();
   const [pageIndex, setPageIndex] = useState(1);
   const { blogs } = useSelector((state) => state.blogs);
-  const { allBlogs } = blogs;
 
   useEffect(() => {
     dispatch(
@@ -21,10 +21,11 @@ export const AllBlogs = () => {
       })
     );
   }, [dispatch, pageIndex]);
-  return allBlogs.res ? (
+
+  return (
     <div className={`${classes["parent-container"]} wrapper`}>
       <div className={classes.allblogs}>
-        {allBlogs.res.map((blog) => (
+        {blogs.map((blog) => (
           <BlogCard blog={blog} key={blog._id} />
         ))}
         <div className={classes["handle-btns"]}>
@@ -38,5 +39,5 @@ export const AllBlogs = () => {
       </div>
       <AllTags />
     </div>
-  ) : null;
+  );
 };

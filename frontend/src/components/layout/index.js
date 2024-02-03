@@ -1,17 +1,21 @@
-import { Outlet, useLocation, useNavigate } from "react-router-dom";
-import { Navbar } from "../navbar";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
+import { Navbar } from "../navbar";
 
 const Layout = () => {
   const router = useLocation();
-  const { pathname } = router;
-  const { user } = useSelector((state) => state.user);
   const navigate = useNavigate();
+
+  const { user } = useSelector((state) => state.user);
+
+  const { pathname } = router;
+
   useEffect(() => {
     if (!user && pathname !== "/login" && pathname !== "/signup")
       navigate("/login");
-  }, [user, navigate, pathname]);
+  }, [user, pathname, navigate]);
+
   return (
     <>
       {!(pathname === "/signup" || pathname === "/login") && <Navbar />}
@@ -19,4 +23,5 @@ const Layout = () => {
     </>
   );
 };
+
 export default Layout;

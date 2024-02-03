@@ -8,6 +8,7 @@ import { toggleLike, userBlogs } from "../../store/reducer/blogSlice";
 import { apiCalling } from "../../utils";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+
 function getFormattedDate(dateString) {
   const inputDate = new Date(dateString);
   const options = {
@@ -19,6 +20,7 @@ function getFormattedDate(dateString) {
   const formattedDate = inputDate.toLocaleDateString("en-US", options);
   return formattedDate;
 }
+
 const showUpdatedData = (heading, dispatch) => {
   heading === "Published"
     ? dispatch(
@@ -38,15 +40,18 @@ const showUpdatedData = (heading, dispatch) => {
         })
       );
 };
+
 export const BlogCard = (props) => {
   const { blog, action, heading } = props;
-  const { createdAt, createdBy, content, title, isLiked, likes, readTime } =
-    blog;
-  const [showDropdown, setShowDropdown] = useState(false);
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [showDropdown, setShowDropdown] = useState(false);
+
+  const { createdAt, createdBy, content, title, isLiked, likes, readTime } =
+    blog;
+
   const handleLikeClick = async () => {
-    console.log("clicked");
     try {
       const res = await apiCalling("put", `/blogs/toggleLike/${blog._id}`);
       if (res.success) dispatch(toggleLike({ blogId: blog._id }));

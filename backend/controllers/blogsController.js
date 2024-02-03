@@ -47,7 +47,7 @@ const getAllBlogs = async (req) => {
       allBlogs = false,
     } = query;
     const condition = { isDeleted: false, isPublished: true };
-    if (trending) {
+        if (trending) {
       const result = await Blog.aggregate([
         {
           $match: { ...condition },

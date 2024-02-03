@@ -2,6 +2,7 @@
   background-color: var(--navbarBg);
   position: sticky;
   top: 0;
+  z-index: 6969;
 }
 .navbar-container {
   display: flex;

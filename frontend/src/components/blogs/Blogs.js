@@ -7,9 +7,11 @@ import { userBlogs } from "../../store/reducer/blogSlice";
 
 export const Blogs = (props) => {
   const { heading } = props;
-  const { blogs } = useSelector((state) => state.blogs);
-  const { userBlog } = blogs;
+
   const dispatch = useDispatch();
+
+  const { blogs } = useSelector((state) => state.blogs);
+
   useEffect(() => {
     heading === "Published"
       ? dispatch(
@@ -47,8 +49,8 @@ export const Blogs = (props) => {
       />
 
       <div className={`${classes["blogs-container"]}`}>
-        {userBlog && userBlog.length ? (
-          userBlog.map((blog, index) => (
+        {blogs.length ? (
+          blogs.map((blog, index) => (
             <BlogCard
               key={index}
               blog={blog}
