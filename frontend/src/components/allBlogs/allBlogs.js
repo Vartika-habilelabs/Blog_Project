@@ -21,10 +21,10 @@ export const AllBlogs = () => {
       })
     );
   }, [dispatch, pageIndex]);
-  return allBlogs ? (
+  return allBlogs.res ? (
     <div className={`${classes["parent-container"]} wrapper`}>
       <div className={classes.allblogs}>
-        {allBlogs.map((blog) => (
+        {allBlogs.res.map((blog) => (
           <BlogCard blog={blog} key={blog._id} />
         ))}
         <div className={classes["handle-btns"]}>

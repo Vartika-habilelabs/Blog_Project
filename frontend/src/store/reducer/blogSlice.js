@@ -86,6 +86,7 @@ const blogSlice = createSlice({
       state.blogs.userBlog = payload;
     });
     builder.addCase(getAllBlogs.fulfilled, (state, { payload }) => {
+      console.log(payload);
       state.blogs.allBlogs = payload;
     });
   },
