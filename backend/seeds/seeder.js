@@ -3,10 +3,10 @@ import { Blog, Tag, User } from "../models/index.js";
 import { connectDB } from "../db/index.js";
 import { statusMessages } from "../config/index.js";
 import mongoose from "mongoose";
-import crypto from "crypto-js";
-import dotenv from "dotenv";
 import { blogs } from "./blogs.js";
-dotenv.config();
+import dummyUserGenerator from "./users.js";
+
+
 const seeder = async () => {
   try {
     await Tag.deleteMany({});
@@ -21,16 +21,9 @@ const seeder = async () => {
     console.log("error in blogs", err);
   }
   try {
-    const hash = await crypto.AES.encrypt("vartika", process.env.SECRET_KEY);
-    const admin = new User({
-      firstname: "rakshit",
-      lastname: "agr",
-      username: "raks",
-      email: "rakshit@gmail.com",
-      password: hash,
-      dob: new Date("11-14-2000"),
-    });
-    await admin.save();
+    const [users, adminUsers] = dummyUserGenerator(10);
+    console.log({users, adminUsers});
+
   } catch (err) {
     console.log("error in user", err);
   }
