@@ -110,7 +110,9 @@ const getAllBlogs = async (req) => {
         $limit: pageSize,
       },
     ]);
-    return res;
+    const totalcount = await Blog.countDocuments(condition);
+    console.log(totalcount);
+    return { res, totalcount };
   } catch (error) {
     console.log(error);
     throw error;
