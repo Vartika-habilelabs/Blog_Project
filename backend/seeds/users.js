@@ -24,7 +24,6 @@ const dummyUserGenerator = (userCount = 1, adminUserCount = 1) => {
       email: `admin.dummy${index}@gmail.com`,
       password: crypto.AES.encrypt("vartika", process.env.SECRET_KEY),
       dob: new Date("11-14-2000"),
-      isAdmin: true
     });
   });
 
