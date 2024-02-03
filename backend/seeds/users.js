@@ -8,8 +8,8 @@ const dummyUserGenerator = (userCount = 1, adminUserCount = 1) => {
   [...Array(Math.max(userCount, 1))].map((_, index) => {
     const hashPass = crypto.AES.encrypt("vartika", process.env.SECRET_KEY);
     userArr.push({
-      firstName: `User${index}`,
-      lastName: "Dummy",
+      firstname: `User${index}`,
+      lastname: "Dummy",
       username: `user${index}`,
       email: `user.dummy${index}@gmail.com`,
       password: hashPass,
@@ -18,8 +18,8 @@ const dummyUserGenerator = (userCount = 1, adminUserCount = 1) => {
   });
   [...Array(Math.max(adminUserCount, 1))].map((_, index) => {
     adminUserArr.push({
-      firstName: `Admin${index}`,
-      lastName: "Dummy",
+      firstname: `Admin${index}`,
+      lastname: "Dummy",
       username: `admin${index}`,
       email: `admin.dummy${index}@gmail.com`,
       password: crypto.AES.encrypt("vartika", process.env.SECRET_KEY),

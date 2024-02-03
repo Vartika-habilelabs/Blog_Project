@@ -23,6 +23,8 @@ const seeder = async () => {
   try {
     const [users, adminUsers] = dummyUserGenerator(10);
     console.log({users, adminUsers});
+    await User.deleteMany({});
+    await User.insertMany([...users, ...adminUsers]);
 
   } catch (err) {
     console.log("error in user", err);
