@@ -9,8 +9,10 @@ import { useState, useEffect, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { apiCalling } from "../../utils";
 
-const getEntireData = (blogId) => {
-  const res = apiCalling("get", `blogs/${blogId}`);
+const getEntireData = async (blogId) => {
+  const res = await apiCalling("get", `/blogs/${blogId}`);
+  console.log(res);
+  return res;
 };
 export const CreateBlog = () => {
   const [checked, setChecked] = useState(false);
@@ -19,8 +21,6 @@ export const CreateBlog = () => {
   const params = useParams();
   const { id } = params;
   const { blogs } = useSelector((state) => state.blogs);
-  console.log(blogs);
-  // console.log(state);
   const imageRef = useRef(null);
   const form = useForm({
     resolver: yupResolver(blogSchema),
@@ -32,16 +32,18 @@ export const CreateBlog = () => {
     formState: { errors },
     reset,
   } = form;
+
   useEffect(() => {
-    if (id) {
-      // const { userBlog } = blogs;
-      // const selectedBlog = blogs.find((blog) => blog._id === id);
-      const selectedBlog = getEntireData(id);
-      // console.log(selectedBlog);
+    const fetchData = async () => {
+      const selectedBlog = await getEntireData(id);
       reset({
         title: selectedBlog.title,
         content: selectedBlog.content,
       });
+    };
+
+    if (id) {
+      fetchData();
     }
   }, [id, blogs, reset]);
 
