@@ -7,7 +7,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { saveBlogsToDb } from "../../store/reducer/blogSlice";
 import { useState, useEffect, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { apiCalling } from "../../utils";
 
+const getEntireData = (blogId) => {
+  const res = apiCalling("get", `blogs/${blogId}`);
+};
 export const CreateBlog = () => {
   const [checked, setChecked] = useState(false);
   const dispatch = useDispatch();
@@ -15,6 +19,8 @@ export const CreateBlog = () => {
   const params = useParams();
   const { id } = params;
   const { blogs } = useSelector((state) => state.blogs);
+  console.log(blogs);
+  // console.log(state);
   const imageRef = useRef(null);
   const form = useForm({
     resolver: yupResolver(blogSchema),
@@ -28,8 +34,10 @@ export const CreateBlog = () => {
   } = form;
   useEffect(() => {
     if (id) {
-      const { userBlog } = blogs;
-      const selectedBlog = userBlog.find((blog) => blog._id === id);
+      // const { userBlog } = blogs;
+      // const selectedBlog = blogs.find((blog) => blog._id === id);
+      const selectedBlog = getEntireData(id);
+      // console.log(selectedBlog);
       reset({
         title: selectedBlog.title,
         content: selectedBlog.content,

@@ -4,6 +4,7 @@
   flex-wrap: wrap;
   justify-content: center;
   gap: 1.8rem;
+  margin: 2rem 0;
 }
 .trending {
   display: flex;

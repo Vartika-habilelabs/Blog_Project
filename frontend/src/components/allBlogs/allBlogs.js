@@ -4,12 +4,16 @@ import { getAllBlogs } from "../../store/reducer/blogSlice";
 import { BlogCard } from "../blogCard";
 import classes from "./allBlogs.module.css";
 import { AllTags } from "../allTags";
+import { Pagination } from "../pagination";
 
 export const AllBlogs = () => {
   const dispatch = useDispatch();
   const [pageIndex, setPageIndex] = useState(1);
-  const { blogs } = useSelector((state) => state.blogs);
-
+  const { blogs, blogCount } = useSelector((state) => state.blogs);
+  const pages = Math.ceil(blogCount / 10);
+  const handlePageIndex = (val) => {
+    setPageIndex((prev) => prev + val);
+  };
   useEffect(() => {
     dispatch(
       getAllBlogs({
@@ -28,14 +32,11 @@ export const AllBlogs = () => {
         {blogs.map((blog) => (
           <BlogCard blog={blog} key={blog._id} />
         ))}
-        <div className={classes["handle-btns"]}>
-          {pageIndex > 1 && (
-            <button onClick={() => setPageIndex((prev) => prev - 1)}>
-              Previous
-            </button>
-          )}
-          <button onClick={() => setPageIndex((prev) => prev + 1)}>Next</button>
-        </div>
+        <Pagination
+          pageIndex={pageIndex}
+          handlePageIndex={handlePageIndex}
+          pages={pages}
+        />
       </div>
       <AllTags />
     </div>

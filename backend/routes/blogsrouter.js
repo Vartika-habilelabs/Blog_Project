@@ -5,6 +5,7 @@ import {
   createBlog,
   updateBlog,
   toggleLike,
+  getBlogDataById,
 } from "../controllers/index.js";
 const router = express.Router();
 router.get("/blogs", verifyToken, handleResponse.bind(this, getAllBlogs));
@@ -19,4 +20,5 @@ router.put(
   verifyToken,
   handleResponse.bind(this, toggleLike)
 );
+router.get("/blogs/:blogId", handleResponse.bind(this, getBlogDataById));
 export default router;

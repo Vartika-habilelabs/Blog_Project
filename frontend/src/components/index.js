@@ -11,3 +11,4 @@ export { Image } from "./image";
 export { Popper } from "./popper";
 export { AllBlogs } from "./allBlogs";
 export { AllTags } from "./allTags";
+export { Pagination } from "./pagination";

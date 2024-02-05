@@ -9,7 +9,6 @@ export const TrendingBlogs = () => {
   const dispatch = useDispatch();
 
   const { trending } = useSelector((state) => state.blogs);
-
   useEffect(() => {
     dispatch(trendingBlogs());
   }, [dispatch]);

@@ -1,6 +1,6 @@
 .parent-container {
   display: flex;
-  gap: 2rem;
+  gap: 10rem;
   padding: 2rem;
 }
 .allblogs {
@@ -9,12 +9,10 @@
   flex: 0.7;
   flex-direction: column;
 }
-.handle-btns {
-  display: flex;
-  justify-content: space-between;
-}
-.handle-btns button {
-  background: none;
-  border: none;
-  font-size: 2rem;
+
+@media (max-width: 869px) {
+  .parent-container {
+    flex-direction: column-reverse;
+    gap: 3rem;
+  }
 }

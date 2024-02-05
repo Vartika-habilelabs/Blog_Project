@@ -4,5 +4,6 @@ export {
   createBlog,
   updateBlog,
   toggleLike,
+  getBlogDataById,
 } from "./blogsController.js";
 export * from "./tagsController.js";

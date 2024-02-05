@@ -1,23 +1,28 @@
 import classes from "./Blogs.module.css";
 import { useDispatch, useSelector } from "react-redux";
-import { BlogCard, Header, NotFound } from "../../components";
+import { BlogCard, Header, NotFound, Pagination } from "../../components";
 import { Published, Deleted, Unpublished } from "../../assets";
-import { useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { userBlogs } from "../../store/reducer/blogSlice";
 
 export const Blogs = (props) => {
   const { heading } = props;
 
   const dispatch = useDispatch();
-
-  const { blogs } = useSelector((state) => state.blogs);
-
-  useEffect(() => {
+  const [pageIndex, setPageIndex] = useState(1);
+  const { blogs, blogCount } = useSelector((state) => state.blogs);
+  const pages = Math.ceil(blogCount / 10);
+  const handlePageIndex = (val) => {
+    setPageIndex((prev) => prev + val);
+  };
+  const handleheadingdata = () => {
     heading === "Published"
       ? dispatch(
           userBlogs({
             isPublished: true,
             isDeleted: false,
+            pageIndex,
+            pageSize: 10,
           })
         )
       : heading === "Unpublished"
@@ -25,15 +30,23 @@ export const Blogs = (props) => {
           userBlogs({
             isPublished: false,
             isDeleted: false,
+            pageIndex,
+            pageSize: 10,
           })
         )
       : dispatch(
           userBlogs({
             isDeleted: true,
             isPublished: false,
+            pageIndex,
+            pageSize: 10,
           })
         );
-  }, [dispatch, heading]);
+  };
+
+  useEffect(() => {
+    handleheadingdata();
+  }, [heading]);
 
   return (
     <div className={`${classes["trending"]} wrapper`}>
@@ -49,13 +62,16 @@ export const Blogs = (props) => {
       />
 
       <div className={`${classes["blogs-container"]}`}>
-        {blogs.length ? (
+        {blogs ? (
           blogs.map((blog, index) => (
             <BlogCard
               key={index}
+              blogCount={blogCount}
               blog={blog}
               index={index}
               heading={heading}
+              // showUpdatedData={showUpdatedData}
+              handleheadingdata={handleheadingdata}
               action={
                 heading === "Unpublished"
                   ? ["Publish", "Delete", "Edit"]
@@ -69,6 +85,13 @@ export const Blogs = (props) => {
           <NotFound heading="Blogs"></NotFound>
         )}
       </div>
+      {!!blogs.length && (
+        <Pagination
+          pageIndex={pageIndex}
+          handlePageIndex={handlePageIndex}
+          pages={pages}
+        />
+      )}
     </div>
   );
 };

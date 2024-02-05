@@ -1,10 +1,10 @@
 import { useState } from "react";
-import { Liked, Read, ThreeDots, Unliked, vk } from "../../assets";
+import { Liked, Read, ThreeDots, Unliked } from "../../assets";
 import { Button } from "../button";
 import { Image } from "../image";
 import classes from "./blogCard.module.css";
 import { useDispatch } from "react-redux";
-import { toggleLike, userBlogs } from "../../store/reducer/blogSlice";
+import { toggleLike } from "../../store/reducer/blogSlice";
 import { apiCalling } from "../../utils";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
@@ -21,29 +21,8 @@ function getFormattedDate(dateString) {
   return formattedDate;
 }
 
-const showUpdatedData = (heading, dispatch) => {
-  heading === "Published"
-    ? dispatch(
-        userBlogs({
-          isPublished: true,
-        })
-      )
-    : heading === "Unpublished"
-    ? dispatch(
-        userBlogs({
-          isPublished: false,
-        })
-      )
-    : dispatch(
-        userBlogs({
-          isDeleted: true,
-        })
-      );
-};
-
 export const BlogCard = (props) => {
-  const { blog, action, heading } = props;
-
+  const { blog, action, handleheadingdata } = props;
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [showDropdown, setShowDropdown] = useState(false);
@@ -83,72 +62,89 @@ export const BlogCard = (props) => {
       } else {
         navigate(`/edit/${blog._id}`);
       }
-      showUpdatedData(heading, dispatch);
+      handleheadingdata();
     } catch (error) {
       console.log(error);
       toast.error(error.message || "Something went wrong");
     }
   };
   return (
-    <div
-      className={`${classes["blog-card"]} ${action ? classes["column"] : null}`}
-    >
+    <>
       <div
-        className={classes["blog-img"]}
-        style={{
-          backgroundImage: `url(${blog.img ? blog.img : vk})`,
-        }}
-      ></div>
-      <div className={classes["blog-content"]}>
-        <div className={classes["title-read"]}>
-          <h4 className={classes["title"]}>{title}</h4>
-          <p className={classes.username}>~{createdBy.username}</p>
-        </div>
-        <p
-          style={{ textAlign: "left", padding: "0 1rem", marginTop: "0.5rem" }}
-        >
-          {getFormattedDate(createdAt)}
-        </p>
-        <p className={classes.content}>{content}</p>
-        <div className={classes.btnContainer}>
-          <div className={classes.info}>
-            <button className={classes["btn"]} onClick={handleLikeClick}>
-              <Image
-                className={classes["info-img"]}
-                src={isLiked ? Liked : Unliked}
-              ></Image>
-              <p>
-                {likes > 1000
-                  ? (Math.abs(likes) / 1000).toFixed(1) + "k"
-                  : likes}
-              </p>
-            </button>
-            <button className={classes["btn"]}>
-              <Image className={classes["info-img"]} src={Read}></Image>
-              <p>{readTime}min</p>
-            </button>
-            {action && (
-              <div
-                onClick={() => setShowDropdown((prev) => !prev)}
-                className={classes["three-dots"]}
-              >
-                <Image src={ThreeDots} />
-                {showDropdown && (
-                  <div className={classes.dropdown}>
-                    {action.map((val, index) => (
-                      <p key={index} onClick={() => actionHandler(val)}>
-                        {val}
-                      </p>
-                    ))}
-                  </div>
-                )}
-              </div>
-            )}
+        className={`${classes["blog-card"]} ${
+          action ? classes["column"] : null
+        }`}
+      >
+        <div
+          className={classes["blog-img"]}
+          style={{
+            backgroundImage: `url(${
+              blog.img
+                ? blog.img
+                : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS-S-3usroBngWIFb_HPtfEsAlCaVzcuRgixmS2EleNTQ&s"
+            })`,
+          }}
+        ></div>
+        <div className={classes["blog-content"]}>
+          <div className={classes["title-read"]}>
+            <h4 className={classes["title"]}>{title}</h4>
+            <p className={classes.username}>~{createdBy.username}</p>
           </div>
+          <p
+            style={{
+              textAlign: "left",
+              padding: "0 1rem",
+              marginTop: "0.5rem",
+            }}
+          >
+            {getFormattedDate(createdAt)}
+          </p>
+          <p className={classes.content}>{content}</p>
+          <div className={classes.btnContainer}>
+            <div className={classes.info}>
+              <button className={classes["btn"]} onClick={handleLikeClick}>
+                <Image
+                  className={classes["info-img"]}
+                  src={isLiked ? Liked : Unliked}
+                ></Image>
+                <p>
+                  {likes > 1000
+                    ? (Math.abs(likes) / 1000).toFixed(1) + "k"
+                    : likes}
+                </p>
+              </button>
+              <button className={classes["btn"]}>
+                <Image className={classes["info-img"]} src={Read}></Image>
+                <p>{readTime}min</p>
+              </button>
+              {action && (
+                <div
+                  onClick={() => setShowDropdown((prev) => !prev)}
+                  className={classes["three-dots"]}
+                >
+                  <Image src={ThreeDots} />
+                  {showDropdown && (
+                    <div className={classes.dropdown}>
+                      {action.map((val, index) => (
+                        <p key={index} onClick={() => actionHandler(val)}>
+                          {val}
+                        </p>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
 
-          <Button className={classes["read-morebtn"]}>Read more</Button>
+            <Button
+              onClick={() => navigate(`blog/${blog._id}`)}
+              className={classes["read-morebtn"]}
+            >
+              Read more
+            </Button>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };

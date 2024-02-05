@@ -47,7 +47,7 @@ const getAllBlogs = async (req) => {
       allBlogs = false,
     } = query;
     const condition = { isDeleted: false, isPublished: true };
-        if (trending) {
+    if (trending) {
       const result = await Blog.aggregate([
         {
           $match: { ...condition },
@@ -111,7 +111,7 @@ const getAllBlogs = async (req) => {
       },
     ]);
     const totalcount = await Blog.countDocuments(condition);
-    console.log(totalcount);
+    // console.log(totalcount);
     return { res, totalcount };
   } catch (error) {
     console.log(error);
@@ -194,4 +194,16 @@ const toggleLike = async (req, res) => {
     throw error;
   }
 };
-export { getAllBlogs, createBlog, updateBlog, toggleLike };
+
+const getBlogDataById = async (req, res) => {
+  try {
+    const { blogId } = req.params;
+    const res = await Blog.findById(blogId);
+    return { ...res.toJSON() };
+  } catch (error) {
+    console.log(error, statusMessages.FETCH_SINGLE_BLOG_FAILURE);
+    throw error;
+  }
+};
+
+export { getAllBlogs, createBlog, updateBlog, toggleLike, getBlogDataById };

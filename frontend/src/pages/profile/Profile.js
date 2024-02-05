@@ -5,9 +5,9 @@ import { useState } from "react";
 import { AppDrawer } from "../../assets";
 export const Profile = () => {
   const navigate = useNavigate();
-  const [currentBlogs, setCurrentBlogs] = useState("Published");
+  const [currentHeading, setCurrentHeading] = useState("Published");
   const handleCurrentStatus = (value) => {
-    setCurrentBlogs(value);
+    setCurrentHeading(value);
   };
 
   return (
@@ -21,7 +21,7 @@ export const Profile = () => {
           Create Blog
         </Button>
       </div>
-      <Blogs heading={currentBlogs} />
+      <Blogs heading={currentHeading} />
       <Popper
         data={[
           {

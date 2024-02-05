@@ -17,6 +17,7 @@ export const statusMessages = {
   //Messages related to blogs
   BLOG_SAVE_FAILURE: "Error in saving blog",
   BLOG_UPDATE_FAILURE: "Error in updating blog",
+  FETCH_SINGLE_BLOG_FAILURE: "Error in fetching data for single blog",
   //Messages related to tags
   TAGS_FAILURE: "Error in getting all the tags",
 };

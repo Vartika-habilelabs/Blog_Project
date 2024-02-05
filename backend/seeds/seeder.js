@@ -4,7 +4,7 @@ import { connectDB } from "../db/index.js";
 import { statusMessages } from "../config/index.js";
 import mongoose from "mongoose";
 import dummyUserGenerator from "./users.js";
-import dummyBlogGenerator from './blogs.js';
+import dummyBlogGenerator from "./blogs.js";
 
 const seeder = async () => {
   let usersList;
@@ -15,7 +15,7 @@ const seeder = async () => {
     console.log("error in tags", err);
   }
   try {
-    const [users, adminUsers] = dummyUserGenerator(1000);
+    const [users, adminUsers] = dummyUserGenerator(10);
     await User.deleteMany({});
     usersList = await User.insertMany([...users, ...adminUsers]);
   } catch (err) {
@@ -23,7 +23,10 @@ const seeder = async () => {
   }
   try {
     await Blog.deleteMany({});
-    const dummyBlogs = dummyBlogGenerator(2500, usersList.map(user => user._id));
+    const dummyBlogs = dummyBlogGenerator(
+      250,
+      usersList.map((user) => user._id)
+    );
     await Blog.insertMany(dummyBlogs);
   } catch (err) {
     console.log("error in blogs", err);

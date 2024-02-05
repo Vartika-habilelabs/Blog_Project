@@ -81,11 +81,13 @@ const blogSlice = createSlice({
       state.trending = payload;
     });
     builder.addCase(userBlogs.fulfilled, (state, { payload }) => {
-      state.blogs = payload;
+      state.blogs = payload?.res || [];
+      state.blogCount = payload?.totalcount || 0;
     });
     builder.addCase(getAllBlogs.fulfilled, (state, { payload }) => {
-      state.blogs = payload.res || [];
-      state.blogCount = payload.totalcount || 0;
+      state.blogs = payload?.res || [];
+      state.blogCount = payload?.totalcount || 0;
+      // console.log(state.blogCount);
     });
   },
 });
