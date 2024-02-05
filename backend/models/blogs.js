@@ -41,6 +41,12 @@ const blogsSchema = new Schema({
     type: Boolean,
     required: [true, "Delete status is required"],
   },
+  tags: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Tags",
+    },
+  ],
   image: String,
 });
 

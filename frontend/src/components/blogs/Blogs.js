@@ -15,7 +15,7 @@ export const Blogs = (props) => {
   const handlePageIndex = (val) => {
     setPageIndex((prev) => prev + val);
   };
-  const handleheadingdata = () => {
+  const handleheadingdata = useCallback(() => {
     heading === "Published"
       ? dispatch(
           userBlogs({
@@ -42,11 +42,11 @@ export const Blogs = (props) => {
             pageSize: 10,
           })
         );
-  };
+  }, [heading]);
 
   useEffect(() => {
     handleheadingdata();
-  }, [heading]);
+  }, [handleheadingdata]);
 
   return (
     <div className={`${classes["trending"]} wrapper`}>
@@ -70,7 +70,6 @@ export const Blogs = (props) => {
               blog={blog}
               index={index}
               heading={heading}
-              // showUpdatedData={showUpdatedData}
               handleheadingdata={handleheadingdata}
               action={
                 heading === "Unpublished"

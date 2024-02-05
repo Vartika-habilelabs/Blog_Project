@@ -1,5 +1,5 @@
 import classes from "./CreateBlog.module.css";
-import { Button } from "../../components";
+import { Button, TagSelector } from "../../components";
 import { FormProvider, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { blogSchema } from "./validation";
@@ -16,6 +16,7 @@ const getEntireData = async (blogId) => {
 };
 export const CreateBlog = () => {
   const [checked, setChecked] = useState(false);
+  const [showTagSelector, setShowTagSelector] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const params = useParams();
@@ -80,7 +81,12 @@ export const CreateBlog = () => {
     console.log(base64);
     imageRef.current = base64;
   };
-  return (
+  const handleCloseTagSelector = () => {
+    setShowTagSelector((prev) => !prev);
+  };
+  return showTagSelector ? (
+    <TagSelector handleCloseTagSelector={handleCloseTagSelector} />
+  ) : (
     <FormProvider {...form}>
       <form
         onSubmit={handleSubmit(onSubmit)}
@@ -108,7 +114,7 @@ export const CreateBlog = () => {
             <p className={classes["error-message"]}>{errors.content.message}</p>
           )}
           <div className={classes["file-upload"]}>
-            <label className={classes.checkbox}>
+            <label className="checkbox">
               <input
                 type="checkbox"
                 onChange={() => setChecked((prev) => !prev)}
@@ -118,6 +124,9 @@ export const CreateBlog = () => {
             <input id="image" type="file" onChange={encodeImageFileAsURL} />
           </div>
           <div className={classes["button-container"]}>
+            <Button onClick={() => setShowTagSelector((prev) => !prev)}>
+              Select tags
+            </Button>
             <Button type="submit" className={classes.button}>
               Save
             </Button>

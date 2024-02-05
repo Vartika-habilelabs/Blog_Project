@@ -43,6 +43,15 @@ body {
 .carousel .control-dots .dot {
   background: var(--maincolor) !important;
 }
+.checkbox {
+  font-weight: 600;
+  font-size: 2rem;
+  width: fit-content;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  color: var(--inputcolor);
+}
 /* @media (max-width: 900px) {
   .carousel .slider-wrapper {
   }

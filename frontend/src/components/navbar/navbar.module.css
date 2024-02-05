@@ -2,7 +2,7 @@
   background-color: var(--navbarBg);
   position: sticky;
   top: 0;
-  z-index: 6969;
+  z-index: 100;
   max-height: 7rem;
 }
 .navbar-container {
