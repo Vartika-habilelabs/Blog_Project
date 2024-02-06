@@ -6,14 +6,14 @@ const TagSchema = new Schema({
     type: String,
     required: [true, "tag is required"],
     unique: true,
-    validate:[
-        {
-            validator:(value)=>{
-              return value.length<15
-            },
-            message:"{VALUE} should be atmost of 15 characters"
-        }
-    ]
+    validate: [
+      {
+        validator: (value) => {
+          return value.length < 25;
+        },
+        message: "{VALUE} should be atmost of 25 characters",
+      },
+    ],
   },
 });
 

@@ -21,6 +21,7 @@ const tagSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(allTags.fulfilled, (state, { payload }) => {
+      console.log(payload, "in payload");
       state.tags = payload;
     });
   },

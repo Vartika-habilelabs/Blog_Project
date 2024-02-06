@@ -5,12 +5,14 @@ import { statusMessages } from "../config/index.js";
 import mongoose from "mongoose";
 import dummyUserGenerator from "./users.js";
 import dummyBlogGenerator from "./blogs.js";
+import dummyTagsGenerator from "./tags.js";
 
 const seeder = async () => {
-  let usersList;
+  let usersList, TagsList;
   try {
+    const dummyTags = dummyTagsGenerator(20);
     await Tag.deleteMany({});
-    await Tag.insertMany(tags.map((tag) => ({ tag })));
+    TagsList = await Tag.insertMany(dummyTags);
   } catch (err) {
     console.log("error in tags", err);
   }
@@ -25,7 +27,8 @@ const seeder = async () => {
     await Blog.deleteMany({});
     const dummyBlogs = dummyBlogGenerator(
       250,
-      usersList.map((user) => user._id)
+      usersList.map((user) => user._id),
+      TagsList.map((tags) => tags._id)
     );
     await Blog.insertMany(dummyBlogs);
   } catch (err) {

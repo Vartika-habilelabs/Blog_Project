@@ -7,6 +7,7 @@ export const TagSelector = (props) => {
   const dispatch = useDispatch();
   const { handleCloseTagSelector } = props;
   const { tags } = useSelector((state) => state.tags);
+  console.log(tags);
   const [searched, setSearched] = useState();
   const [tagsArray, setTagsArray] = useState([]);
   useEffect(() => {
@@ -21,7 +22,7 @@ export const TagSelector = (props) => {
           placeholder="search here"
           onChange={(e) => setSearched(e.target.value)}
         />
-        {tags.length && (
+        {!!tags.length && (
           <div className={classes["all-tags"]}>
             {tags.map((tag) => (
               <label key={tag._id} className="checkbox">
@@ -30,8 +31,8 @@ export const TagSelector = (props) => {
                   onChange={(e) =>
                     setTagsArray((prev) =>
                       e.target.checked
-                        ? prev.filter((tag) => tag != tag._id)
-                        : [...prev, tag._id]
+                        ? [...prev, tag._id]
+                        : prev.filter((id) => id !== tag._id)
                     )
                   }
                 ></input>

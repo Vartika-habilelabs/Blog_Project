@@ -42,7 +42,7 @@ export const Blogs = (props) => {
             pageSize: 10,
           })
         );
-  }, [heading]);
+  }, [heading, dispatch, pageIndex]);
 
   useEffect(() => {
     handleheadingdata();
