@@ -35,6 +35,13 @@ export const Navbar = () => {
               <Button
                 color="secondary"
                 className={classes["logout-button"]}
+                onClick={() => navigate("/create")}
+              >
+                Create Blog
+              </Button>
+              <Button
+                color="secondary"
+                className={classes["logout-button"]}
                 onClick={handleLogout}
               >
                 Logout
@@ -57,6 +64,9 @@ export const Navbar = () => {
               <div onClick={handleCloseHandler} className={classes.overlay}>
                 <div className={classes.hamburger}>
                   <div className={classes["logout-profile"]}>
+                    <Button className={classes["logout-button"]}>
+                      Create Blog
+                    </Button>
                     <Button
                       color="secondary"
                       className={classes["logout-button"]}

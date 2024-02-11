@@ -3,7 +3,7 @@ import { Liked, Read, ThreeDots, Unliked } from "../../assets";
 import { Button } from "../button";
 import { Image } from "../image";
 import classes from "./blogCard.module.css";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { toggleLike } from "../../store/reducer/blogSlice";
 import { apiCalling } from "../../utils";
 import { toast } from "react-toastify";
@@ -26,9 +26,22 @@ export const BlogCard = (props) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [showDropdown, setShowDropdown] = useState(false);
-
-  const { createdAt, createdBy, content, title, isLiked, likes, readTime } =
-    blog;
+  const { tags } = useSelector((state) => state.tags);
+  const {
+    createdAt,
+    createdBy,
+    content,
+    title,
+    isLiked,
+    likes,
+    readTime,
+    tagsArray,
+  } = blog;
+  const blogTags = [].concat(
+    ...tagsArray.map((id) => {
+      return tags.filter((tag) => tag._id === id).map((tag) => tag.tag);
+    })
+  );
 
   const handleLikeClick = async () => {
     try {
@@ -100,6 +113,13 @@ export const BlogCard = (props) => {
             {getFormattedDate(createdAt)}
           </p>
           <p className={classes.content}>{content}</p>
+          <div className={`tags-container ${classes["tags-container"]}`}>
+            {blogTags.map((tag) => (
+              <p key={tag._id} className="single-tag">
+                {tag}
+              </p>
+            ))}
+          </div>
           <div className={classes.btnContainer}>
             <div className={classes.info}>
               <button className={classes["btn"]} onClick={handleLikeClick}>

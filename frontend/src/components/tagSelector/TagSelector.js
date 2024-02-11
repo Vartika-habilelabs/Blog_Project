@@ -5,14 +5,17 @@ import { Button } from "../button";
 import { allTags } from "../../store/reducer/tagSlice";
 export const TagSelector = (props) => {
   const dispatch = useDispatch();
-  const { handleCloseTagSelector } = props;
   const { tags } = useSelector((state) => state.tags);
-  console.log(tags);
+
+  const { handleCloseTagSelector, tagsSelected } = props;
+
   const [searched, setSearched] = useState();
-  const [tagsArray, setTagsArray] = useState([]);
+  const [tagsArray, setTagsArray] = useState(tagsSelected);
+
   useEffect(() => {
     dispatch(allTags());
   }, [dispatch]);
+
   return (
     <div className={classes["overlay-tag"]}>
       <div className={classes["tag-selector-container"]}>
@@ -28,6 +31,7 @@ export const TagSelector = (props) => {
               <label key={tag._id} className="checkbox">
                 <input
                   type="checkbox"
+                  checked={tagsArray.includes(tag._id)}
                   onChange={(e) =>
                     setTagsArray((prev) =>
                       e.target.checked
@@ -44,8 +48,10 @@ export const TagSelector = (props) => {
         <div
           style={{ display: "flex", justifyContent: "flex-end", gap: "1rem" }}
         >
-          <Button onClick={() => handleCloseTagSelector()}>Cancel</Button>
-          <Button onClick={() => handleCloseTagSelector()}>Save</Button>
+          <Button onClick={() => handleCloseTagSelector()}>Clear</Button>
+          <Button onClick={() => handleCloseTagSelector(tagsArray)}>
+            Save
+          </Button>
         </div>
       </div>
     </div>

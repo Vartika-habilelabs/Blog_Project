@@ -33,6 +33,9 @@ const addFields = (titleLength, contentLength, userID) => ({
   isLiked: {
     $cond: [{ $in: [new ObjectId(userID), "$likedBy"] }, true, false],
   },
+  tagsArray: {
+    $slice: ["$tags", 3],
+  },
 });
 
 const getAllBlogs = async (req) => {
@@ -111,7 +114,6 @@ const getAllBlogs = async (req) => {
       },
     ]);
     const totalcount = await Blog.countDocuments(condition);
-    // console.log(totalcount);
     return { res, totalcount };
   } catch (error) {
     console.log(error);
@@ -123,7 +125,7 @@ const createBlog = async (req) => {
   try {
     const { body, user } = req;
     const { _id } = user;
-    const { title, content, isPublished, isDeleted, image } = body;
+    const { title, content, isPublished, isDeleted, image, tags } = body;
     const newBlog = new Blog({
       title,
       content,
@@ -132,6 +134,7 @@ const createBlog = async (req) => {
       createdBy: _id,
       createdAt: new Date(),
       likedCount: 0,
+      tags,
       image,
     });
     await newBlog.save();

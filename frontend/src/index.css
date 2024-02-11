@@ -21,7 +21,6 @@ body {
 .wrapper {
   max-width: 1444px;
   margin: 0 auto;
-  /* height: 100%; */
 }
 .Toastify__toast-body {
   font-size: 1.5rem;
@@ -52,7 +51,17 @@ body {
   gap: 1rem;
   color: var(--inputcolor);
 }
-/* @media (max-width: 900px) {
-  .carousel .slider-wrapper {
-  }
-} */
+.tags-container {
+  display: flex;
+  gap: 1rem;
+  margin: 1rem 0;
+  flex-wrap: wrap;
+}
+.single-tag {
+  background-color: var(--inputcolor);
+  color: var(--bg-color);
+  padding: 1rem;
+  border-radius: 10rem;
+  font-weight: 500;
+  font-size: 1.4rem;
+}

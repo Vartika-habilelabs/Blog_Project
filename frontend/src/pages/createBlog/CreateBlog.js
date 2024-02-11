@@ -9,20 +9,42 @@ import { useState, useEffect, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { apiCalling } from "../../utils";
 
+const convertBase64 = (file) => {
+  return new Promise((resolve, reject) => {
+    const fileReader = new FileReader();
+    fileReader.readAsDataURL(file);
+
+    fileReader.onload = () => {
+      resolve(fileReader.result);
+    };
+
+    fileReader.onerror = (error) => {
+      reject(error);
+    };
+  });
+};
 const getEntireData = async (blogId) => {
   const res = await apiCalling("get", `/blogs/${blogId}`);
   console.log(res);
   return res;
 };
+
 export const CreateBlog = () => {
   const [checked, setChecked] = useState(false);
   const [showTagSelector, setShowTagSelector] = useState(false);
+  const [tagsSelected, setTagsSelected] = useState([]);
+
+  const {
+    blogs: { blogs },
+    tags: { tags },
+  } = useSelector((state) => state);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
   const params = useParams();
   const { id } = params;
-  const { blogs } = useSelector((state) => state.blogs);
   const imageRef = useRef(null);
+
   const form = useForm({
     resolver: yupResolver(blogSchema),
     mode: "all",
@@ -56,36 +78,33 @@ export const CreateBlog = () => {
       isPublished: checked,
       isDeleted: false,
       image: imageRef.current,
+      tags: tagsSelected.map((tag) => tag._id),
     };
     dispatch(
       saveBlogsToDb({ blogEntry, onSuccess: () => navigate("/profile") })
     );
   };
-  const convertBase64 = (file) => {
-    return new Promise((resolve, reject) => {
-      const fileReader = new FileReader();
-      fileReader.readAsDataURL(file);
 
-      fileReader.onload = () => {
-        resolve(fileReader.result);
-      };
-
-      fileReader.onerror = (error) => {
-        reject(error);
-      };
-    });
-  };
   const encodeImageFileAsURL = async (e) => {
     const file = e.target.files[0];
     const base64 = await convertBase64(file);
     console.log(base64);
     imageRef.current = base64;
   };
-  const handleCloseTagSelector = () => {
+  const handleCloseTagSelector = (tagsArray = []) => {
     setShowTagSelector((prev) => !prev);
+    const tagsObject = [].concat(
+      ...tagsArray.map((id) => {
+        return tags.filter((tag) => tag._id === id);
+      })
+    );
+    setTagsSelected(tagsObject);
   };
   return showTagSelector ? (
-    <TagSelector handleCloseTagSelector={handleCloseTagSelector} />
+    <TagSelector
+      handleCloseTagSelector={handleCloseTagSelector}
+      tagsSelected={tagsSelected.map((tags) => tags._id)}
+    />
   ) : (
     <FormProvider {...form}>
       <form
@@ -123,8 +142,16 @@ export const CreateBlog = () => {
             </label>
             <input id="image" type="file" onChange={encodeImageFileAsURL} />
           </div>
+          <div className="tags-container">
+            {tagsSelected.map((tag) => (
+              <p className="single-tag">{tag.tag}</p>
+            ))}
+          </div>
           <div className={classes["button-container"]}>
-            <Button onClick={() => setShowTagSelector((prev) => !prev)}>
+            <Button
+              className={classes.button}
+              onClick={() => setShowTagSelector((prev) => !prev)}
+            >
               Select tags
             </Button>
             <Button type="submit" className={classes.button}>

@@ -20,6 +20,9 @@
   flex-direction: column;
   width: 100%;
 }
+.column .tags-container {
+  margin: 1rem;
+}
 .column .blog-img {
   height: 25rem;
   width: 100%;
@@ -112,9 +115,6 @@
   }
 }
 @media (min-width: 870px) {
-  /* .three-dots {
-    display: none;
-  } */
   .column {
     max-width: 35rem;
   }
