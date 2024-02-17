@@ -1,7 +1,13 @@
 import { createBrowserRouter } from "react-router-dom";
-import { CreateBlog, HomePage, Register, SingleBlogPage } from "../pages";
+import {
+  CreateBlog,
+  HomePage,
+  MyBlogs,
+  Register,
+  SingleBlogPage,
+  UserProfile,
+} from "../pages";
 import Layout from "../components/layout";
-import { Profile } from "../pages/profile/Profile";
 
 const router = createBrowserRouter([
   {
@@ -21,8 +27,8 @@ const router = createBrowserRouter([
         element: <HomePage />,
       },
       {
-        path: "/profile",
-        element: <Profile />,
+        path: "/myblogs",
+        element: <MyBlogs />,
       },
       {
         path: "/create",
@@ -35,6 +41,10 @@ const router = createBrowserRouter([
       {
         path: "/blog/:id",
         element: <SingleBlogPage />,
+      },
+      {
+        path: "/profile",
+        element: <UserProfile />,
       },
     ],
   },

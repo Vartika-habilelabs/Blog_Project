@@ -14,7 +14,8 @@
   --box-shadow: rgba(150, 126, 118, 0.5);
   --overlayBg: rgba(0, 0, 0, 0.271);
   --tagsBtnBg: #dadadc52;
-  --blackText: "000000";
+  --blackText: "#000000";
+  --imageBg: #e1d8d5;
 
   /* --breakpoint-sm: 576px;
   --breakpoint-md: 876px;

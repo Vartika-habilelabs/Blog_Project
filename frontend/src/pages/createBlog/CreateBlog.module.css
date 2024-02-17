@@ -1,12 +1,20 @@
 .form-container {
-  height: 100%;
+  height: calc(100vh - 76px);
 }
 .input-container {
+  flex: 1;
   padding: 1.4rem;
   color: var(--inputcolorval);
   font-size: 1.5rem;
   border: 1px solid var(--maincolor);
   border-radius: 0.5rem;
+}
+
+.upload {
+  flex: 1;
+  background-color: var(--imageBg);
+  border-radius: 0.5rem;
+  display: flex;
 }
 .textarea {
   height: 100%;
@@ -27,6 +35,12 @@
   float: right;
   justify-content: flex-end;
 }
+.title-image {
+  display: flex;
+  justify-content: space-between;
+  height: 15rem;
+  gap: 1rem;
+}
 .form-content {
   display: flex;
   flex-direction: column;
@@ -44,7 +58,13 @@
 .button {
   border: none;
 }
-@media (max-width: 569px) {
+.imageUpload {
+  font-size: 2rem;
+  cursor: pointer;
+  color: var(--inputcolorval);
+  text-align: center;
+}
+@media (max-width: 699px) {
   .form-content {
     width: 100%;
   }

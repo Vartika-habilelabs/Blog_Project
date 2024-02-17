@@ -3,30 +3,17 @@ import { Liked, Read, ThreeDots, Unliked } from "../../assets";
 import { Button } from "../button";
 import { Image } from "../image";
 import classes from "./blogCard.module.css";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { toggleLike } from "../../store/reducer/blogSlice";
-import { apiCalling } from "../../utils";
+import { apiCalling, getFormattedDate } from "../../utils";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-
-function getFormattedDate(dateString) {
-  const inputDate = new Date(dateString);
-  const options = {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  };
-
-  const formattedDate = inputDate.toLocaleDateString("en-US", options);
-  return formattedDate;
-}
 
 export const BlogCard = (props) => {
   const { blog, action, handleheadingdata } = props;
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [showDropdown, setShowDropdown] = useState(false);
-  const { tags } = useSelector((state) => state.tags);
   const {
     createdAt,
     createdBy,
@@ -35,13 +22,8 @@ export const BlogCard = (props) => {
     isLiked,
     likes,
     readTime,
-    tagsArray,
+    tags: tagsArray,
   } = blog;
-  const blogTags = [].concat(
-    ...tagsArray.map((id) => {
-      return tags.filter((tag) => tag._id === id).map((tag) => tag.tag);
-    })
-  );
 
   const handleLikeClick = async () => {
     try {
@@ -114,9 +96,9 @@ export const BlogCard = (props) => {
           </p>
           <p className={classes.content}>{content}</p>
           <div className={`tags-container ${classes["tags-container"]}`}>
-            {blogTags.map((tag) => (
+            {tagsArray.slice(0, 3).map((tag) => (
               <p key={tag._id} className="single-tag">
-                {tag}
+                {tag.tag}
               </p>
             ))}
           </div>

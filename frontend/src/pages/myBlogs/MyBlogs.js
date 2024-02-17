@@ -1,9 +1,9 @@
 import { useNavigate } from "react-router-dom";
 import { ToggleBtn, Button, Blogs, Popper } from "../../components";
-import classes from "./Profile.module.css";
+import classes from "./MyBlogs.module.css";
 import { useState } from "react";
 import { AppDrawer } from "../../assets";
-export const Profile = () => {
+export const MyBlogs = () => {
   const navigate = useNavigate();
   const [currentHeading, setCurrentHeading] = useState("Published");
   const handleCurrentStatus = (value) => {

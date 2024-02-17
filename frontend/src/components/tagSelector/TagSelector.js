@@ -1,20 +1,14 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import classes from "./TagSelector.module.css";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { Button } from "../button";
-import { allTags } from "../../store/reducer/tagSlice";
 export const TagSelector = (props) => {
-  const dispatch = useDispatch();
   const { tags } = useSelector((state) => state.tags);
 
   const { handleCloseTagSelector, tagsSelected } = props;
 
   const [searched, setSearched] = useState();
   const [tagsArray, setTagsArray] = useState(tagsSelected);
-
-  useEffect(() => {
-    dispatch(allTags());
-  }, [dispatch]);
 
   return (
     <div className={classes["overlay-tag"]}>

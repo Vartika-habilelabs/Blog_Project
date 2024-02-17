@@ -2,6 +2,10 @@ import { statusCodes } from "../config/statusCodes.js";
 import { statusMessages } from "../config/statusMessages.js";
 import { Blog } from "../models/index.js";
 import { ObjectId } from "mongodb";
+import { base64ToImage } from "../utils/others.js";
+
+const imagePath = "public/blogs/";
+
 const parsedQuery = (query) => {
   let parsed = {};
   for (let key in query) {
@@ -33,9 +37,6 @@ const addFields = (titleLength, contentLength, userID) => ({
   isLiked: {
     $cond: [{ $in: [new ObjectId(userID), "$likedBy"] }, true, false],
   },
-  tagsArray: {
-    $slice: ["$tags", 3],
-  },
 });
 
 const getAllBlogs = async (req) => {
@@ -65,6 +66,14 @@ const getAllBlogs = async (req) => {
         },
         {
           $unwind: "$createdBy",
+        },
+        {
+          $lookup: {
+            from: "tags",
+            localField: "tags",
+            foreignField: "_id",
+            as: "tags",
+          },
         },
         {
           $addFields: addFields(100, 250, req.user._id),
@@ -104,6 +113,14 @@ const getAllBlogs = async (req) => {
         $unwind: "$createdBy",
       },
       {
+        $lookup: {
+          from: "tags",
+          localField: "tags",
+          foreignField: "_id",
+          as: "tags",
+        },
+      },
+      {
         $addFields: addFields(15, 200, req.user._id),
       },
       {
@@ -126,6 +143,7 @@ const createBlog = async (req) => {
     const { body, user } = req;
     const { _id } = user;
     const { title, content, isPublished, isDeleted, image, tags } = body;
+    // console.log(image);
     const newBlog = new Blog({
       title,
       content,
@@ -135,8 +153,10 @@ const createBlog = async (req) => {
       createdAt: new Date(),
       likedCount: 0,
       tags,
-      image,
     });
+    const blogId = newBlog._id;
+    const imageName = base64ToImage(image, blogId, imagePath);
+    if (imageName) newBlog.image = imageName;
     await newBlog.save();
     return { ...newBlog.toJSON() };
   } catch (err) {

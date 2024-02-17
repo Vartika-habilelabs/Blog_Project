@@ -14,7 +14,7 @@ export const allTags = createAsyncThunk(
   }
 );
 const tagSlice = createSlice({
-  name: "Tags",
+  name: "tags",
   initialState: {
     tags: [],
   },

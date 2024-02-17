@@ -5,9 +5,10 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { blogSchema } from "./validation";
 import { useDispatch, useSelector } from "react-redux";
 import { saveBlogsToDb } from "../../store/reducer/blogSlice";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { apiCalling } from "../../utils";
+import { allTags } from "../../store/reducer/tagSlice";
 
 const convertBase64 = (file) => {
   return new Promise((resolve, reject) => {
@@ -25,7 +26,6 @@ const convertBase64 = (file) => {
 };
 const getEntireData = async (blogId) => {
   const res = await apiCalling("get", `/blogs/${blogId}`);
-  console.log(res);
   return res;
 };
 
@@ -33,9 +33,7 @@ export const CreateBlog = () => {
   const [checked, setChecked] = useState(false);
   const [showTagSelector, setShowTagSelector] = useState(false);
   const [tagsSelected, setTagsSelected] = useState([]);
-
   const {
-    blogs: { blogs },
     tags: { tags },
   } = useSelector((state) => state);
   const dispatch = useDispatch();
@@ -43,7 +41,7 @@ export const CreateBlog = () => {
 
   const params = useParams();
   const { id } = params;
-  const imageRef = useRef(null);
+  const [imageData, setImageData] = useState(null);
 
   const form = useForm({
     resolver: yupResolver(blogSchema),
@@ -57,18 +55,27 @@ export const CreateBlog = () => {
   } = form;
 
   useEffect(() => {
+    dispatch(allTags());
+  }, [dispatch]);
+
+  useEffect(() => {
     const fetchData = async () => {
       const selectedBlog = await getEntireData(id);
       reset({
         title: selectedBlog.title,
         content: selectedBlog.content,
       });
+      setTagsSelected(
+        selectedBlog.tags.map((id) => {
+          return tags.filter((tag) => tag._id === id)[0];
+        })
+      );
     };
 
-    if (id) {
+    if (id && tags?.length) {
       fetchData();
     }
-  }, [id, blogs, reset]);
+  }, [id, reset, tags]);
 
   const onSubmit = (data) => {
     const { content, title } = data;
@@ -77,7 +84,7 @@ export const CreateBlog = () => {
       content,
       isPublished: checked,
       isDeleted: false,
-      image: imageRef.current,
+      image: imageData,
       tags: tagsSelected.map((tag) => tag._id),
     };
     dispatch(
@@ -87,9 +94,10 @@ export const CreateBlog = () => {
 
   const encodeImageFileAsURL = async (e) => {
     const file = e.target.files[0];
+    if (!file) return;
     const base64 = await convertBase64(file);
     console.log(base64);
-    imageRef.current = base64;
+    setImageData(base64);
   };
   const handleCloseTagSelector = (tagsArray = []) => {
     setShowTagSelector((prev) => !prev);
@@ -112,16 +120,55 @@ export const CreateBlog = () => {
         className={`${classes["form-container"]} wrapper`}
       >
         <div className={classes["form-content"]}>
-          <input
-            className={classes["input-container"]}
-            type="text"
-            id="title"
-            {...register("title")}
-            placeholder="Title"
-          ></input>
-          {!!errors.title && (
-            <p className={classes["error-message"]}>{errors.title.message}</p>
-          )}
+          <div className={classes["title-image"]}>
+            <input
+              className={classes["input-container"]}
+              type="text"
+              id="title"
+              {...register("title")}
+              placeholder="Title"
+            ></input>
+            {!!errors.title && (
+              <p className={classes["error-message"]}>{errors.title.message}</p>
+            )}
+            <div
+              className={`${classes["upload"]} ${
+                imageData ? classes["image-bg"] : ""
+              }`}
+            >
+              <label
+                htmlFor="image"
+                style={{
+                  flex: 1,
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                {!imageData ? (
+                  <p className={classes.imageUpload}>Upload image</p>
+                ) : (
+                  <div
+                    style={{
+                      backgroundImage: `url(${imageData})`,
+                      backgroundRepeat: "no-repeat",
+                      backgroundSize: "cover",
+                      backgroundPosition: "center",
+                      flex: 1,
+                      height: "100%",
+                      cursor: "pointer",
+                    }}
+                  ></div>
+                )}
+                <input
+                  id="image"
+                  type="file"
+                  onChange={encodeImageFileAsURL}
+                  style={{ display: "none" }}
+                />
+              </label>
+            </div>
+          </div>
           <textarea
             id="content"
             type="text"
@@ -140,7 +187,6 @@ export const CreateBlog = () => {
               ></input>
               Publish
             </label>
-            <input id="image" type="file" onChange={encodeImageFileAsURL} />
           </div>
           <div className="tags-container">
             {tagsSelected.map((tag) => (
