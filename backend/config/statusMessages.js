@@ -12,6 +12,7 @@ export const statusMessages = {
   USER_LOGIN_FAILURE: "Error in login",
   USER_INVALID_CREDENTIALS: "Invalid credentials",
   ALL_FIELDS_REQUIRED: "All the fields are required",
+  USER_DETAIL_FAILURE: "Failed to fetch user details",
   //Messages related to server error
   SERVER_ERROR: "Internal server error",
   //Messages related to blogs

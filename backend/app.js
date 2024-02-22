@@ -5,7 +5,6 @@ import { statusMessages } from "./config/index.js";
 import cors from "cors";
 import { loadRoutes, logger } from "./utils/index.js";
 import bodyParser from "body-parser";
-import multer from "multer";
 dotenv.config();
 const app = express();
 const port = process.env.PORT;

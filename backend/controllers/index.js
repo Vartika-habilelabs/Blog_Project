@@ -1,4 +1,4 @@
-export { login, signup } from "./userController.js";
+export { login, signup, getUserData } from "./userController.js";
 export {
   getAllBlogs,
   createBlog,

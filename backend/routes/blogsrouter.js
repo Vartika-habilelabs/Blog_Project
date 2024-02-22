@@ -20,5 +20,9 @@ router.put(
   verifyToken,
   handleResponse.bind(this, toggleLike)
 );
-router.get("/blogs/:blogId", handleResponse.bind(this, getBlogDataById));
+router.get(
+  "/blogs/:blogId",
+  verifyToken,
+  handleResponse.bind(this, getBlogDataById)
+);
 export default router;

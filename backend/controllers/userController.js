@@ -80,4 +80,14 @@ const login = async (req) => {
     throw err;
   }
 };
-export { signup, login };
+const getUserData = async (req) => {
+  try {
+    const { userId } = req.params;
+    const userDetail = await User.findById({ _id: userId });
+    return { ...userDetail.toJSON() };
+  } catch (error) {
+    console.log(error, statusMessages.USER_DETAIL_FAILURE);
+    throw error;
+  }
+};
+export { signup, login, getUserData };
