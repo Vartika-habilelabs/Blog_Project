@@ -1,8 +1,9 @@
-import { User } from "../models/index.js";
+import { Blog, User } from "../models/index.js";
 import crypto from "crypto-js";
 import dotenv from "dotenv";
 import { statusMessages, statusCodes } from "../config/index.js";
 import { initialiseToken } from "../utils/index.js";
+import { ObjectId } from "mongodb";
 dotenv.config();
 const TitleCase = (s) => {
   return s.charAt(0).toUpperCase() + s.substr(1).toLowerCase();
@@ -84,7 +85,49 @@ const getUserData = async (req) => {
   try {
     const { userId } = req.params;
     const userDetail = await User.findById({ _id: userId });
-    return { ...userDetail.toJSON() };
+
+    const userBlogs = await Blog.aggregate([
+      {
+        $match: {
+          createdBy: new ObjectId(userId),
+          isPublished: true,
+        },
+      },
+      {
+        $addFields: {
+          likes: { $size: "$likedBy" },
+          title: {
+            $cond: {
+              if: { $gt: [{ strLenCP: "$title" }, 10] },
+              then: {
+                $concat: [{ $substrCP: ["$title", 0, 10] }, "..."],
+              },
+              else: "$title",
+            },
+          },
+        },
+      },
+      {
+        $sort: {
+          likes: -1,
+        },
+      },
+      {
+        $limit: 4,
+      },
+      {
+        $project: {
+          likes: 1,
+          title: 1,
+          tags: 1,
+        },
+      },
+    ]);
+
+    return {
+      userDetail: { ...userDetail.toJSON() },
+      userBlogs,
+    };
   } catch (error) {
     console.log(error, statusMessages.USER_DETAIL_FAILURE);
     throw error;
