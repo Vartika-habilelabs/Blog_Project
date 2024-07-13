@@ -10,7 +10,7 @@ const generateUniqueIds = (arr = []) => {
     Math.floor(Math.random() * arr.length),
     Math.floor(Math.random() * arr.length),
   ];
-  return tagIds.slice(Math.min(indx1, indx2), Math.max(indx1, indx2));
+  return arr.slice(Math.min(indx1, indx2), Math.max(indx1, indx2));
 };
 const dummyBlogGenerator = (
   blogCount = 10,
